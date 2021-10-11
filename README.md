@@ -2,9 +2,10 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Donino, Ramiro 
+- Domínguez, Tomás
+- Fuentes, Tomás
+- Santa Cruz, Gonzalo
 
 ## Capturas
 
@@ -17,6 +18,6 @@
 
 ## Otros
 
-- Curso/Facultad
-- Versión de wollok
+- Programacion orientada a Objetos I - Comisión 2/ Universidad Nacional de Quilmes
+- Version de Wollok: 3.0.0
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
