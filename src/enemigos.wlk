@@ -1,0 +1,4 @@
+object enemigo1 {
+	
+	
+}
