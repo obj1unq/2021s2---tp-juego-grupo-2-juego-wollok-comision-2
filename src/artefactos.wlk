@@ -3,7 +3,11 @@
 object cuchillo{	
 	method factorAtaque(){
 		return 3
-	}	
+	}
+	
+	method usar() {
+		// No hace nada por el polimorfismo
+	}
 	method abrePuerta(){
 		return false
 	}
@@ -36,6 +40,10 @@ object escopeta{
 	
 	method usar(){
 		usos += 1		
+	}
+	
+	method abrePuerta(){
+		return false
 	}
 }
 

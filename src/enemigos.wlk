@@ -1,5 +1,7 @@
 import personaje.*
 import direcciones.*
+import artefactos.*
+import wollok.game.*
 
 object enemigo1 {
 	var property energia = 5 //Valor que probablemente cambie
@@ -7,7 +9,7 @@ object enemigo1 {
 	var property arma 
 	
 	method image() {
-		
+		//Cuando esten las imagenes de vivo y muerto termino esta parte
 	}
 	
 	method moverA(direccion) {
@@ -20,9 +22,11 @@ object enemigo1 {
 	
 	method pelear() {
 		if (self.esMasFuerteQue(personaje)) {
-//			personaje.morir()
+			arma.usar()
+//			personaje.morir()			
 		}
 		else {
+			arma.usar()
 			self.morir()
 		}
 	}
@@ -35,8 +39,9 @@ object enemigo1 {
 		arma = _arma		   //el arma segun si el factor ataque del arma nueva es mayor
 	}
 	
-//	method tirarArma() {
-//	}
+	method tirarArma() {
+		game.addVisual(arma)
+	}
 	
 	method fuerza() {
 		return 5 + arma.factorAtaque()
@@ -44,6 +49,7 @@ object enemigo1 {
 	
 	method morir() {
 		energia = 0
-//		self.tirarArma() Metodo a definir cuando tengamos al menos un arma modelada
+		self.tirarArma()
+		//Poner cuerpo de enemigo?
 	}
 }
