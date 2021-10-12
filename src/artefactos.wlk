@@ -31,7 +31,7 @@ object escopeta{
 	var usos = 0
 	
 	method factorAtaque(){
-		return 10.min(20-usos*3)//(20 - usos x 3) || 10
+		return 10.min(20-usos*3)//(20 - usos x 3) || 10 
 	}
 	
 	method usar(){
