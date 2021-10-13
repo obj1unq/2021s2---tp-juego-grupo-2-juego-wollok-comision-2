@@ -5,11 +5,11 @@ import enemigos.*
 
 object personaje {
 	var property energia = 5 //Valor que probablemente cambie
-	var property position = game.at(5, 5)
+	var property position = game.at(10, 10)
 	var property artefactos = #{}
 	
 
-	method image() = "personaje prueba.jpg"
+	method image() = "personaje prueba 2.png"
 	
 	method moverA(direccion) {
 		self.actualizarPosicion(direccion.siguiente(self.position()))
@@ -21,7 +21,7 @@ object personaje {
 	
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
-			enemigo1.morir()
+			enemigo1.morir()//ganar()
 		}else{
 			self.perder()
 		}

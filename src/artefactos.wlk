@@ -1,6 +1,10 @@
 //import extras.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
+	method image() {
+		
+	}
+	
 	method factorAtaque(){
 		return 3
 	}
@@ -16,6 +20,10 @@ object cuchillo{
 object pistola{
 	var usos = 0
 	//var balas = 3
+	
+	method image() {
+		
+	}
 		
 	method factorAtaque(){		
 		return 5.min(8 - usos)	//(8 - usos) || 5
@@ -34,6 +42,10 @@ object pistola{
 object escopeta{
 	var usos = 0
 	
+	method image() {
+		
+	}
+	
 	method factorAtaque(){
 		return 10.min(20-usos*3)//(20 - usos x 3) || 10 
 	}
@@ -48,6 +60,11 @@ object escopeta{
 }
 
 object tarjetaSeguridad{
+	
+	method image() {
+		
+	}
+	
 	method factorAtaque(){
 		return 0
 	}
@@ -59,6 +76,11 @@ object tarjetaSeguridad{
 }
 
 object tarjetaEdificio{
+	
+	method image() {
+		
+	}
+	
 	method factorAtaque(){
 		return 0
 	}
