@@ -6,7 +6,7 @@ import enemigos.*
 object personaje {
 	var property energia = 100 
 	var property position = game.at(10, 10)
-	var property artefactos = #{cuchillo}
+	var property artefactos = #{}
 	var direccion = abajo 
 	
 
@@ -19,6 +19,7 @@ object personaje {
 	}
 	
 	method moverA(_direccion) {
+		//Validar movimiento con all o any
 		direccion = _direccion
 		self.actualizarPosicion(_direccion.siguiente(self.position()))
 	}
@@ -29,10 +30,10 @@ object personaje {
 	
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
-			self.arma().usar()
+//self.arma().usar()
 			self.ganarPelea()
 		}else{
-			self.arma().usar()
+//self.arma().usar()
 			self.perder()
 		}
 	}
@@ -42,33 +43,29 @@ object personaje {
 	}
 	
 	method fuerza(){
-		return 10 + self.arma().factorAtaque()
+		return 10 //+ self.arma().factorAtaque()
 	}
 	
 	
 	method recogerArtefacto(_artefacto){
-		self.validarRecogerArma()
+//		self.validarRecogerArma()
 		artefactos.add(_artefacto)
 	}
 	
-	method validarRecogerArma() {
-		if (artefactos.any({cosa => self.esArma(cosa)})) {
-			self.error("Ya tenes un arma")
-		}
+//	method validarRecogerArma() {
+//		if (artefactos.any({cosa => self.esArma(cosa)})) {
+//			self.error("Ya tenes un arma")
+//		}
+//	}
+	
+	method armaPoderosa() {
+//		return artefactos.max({cosa => self.esArma(cosa)})
 	}
 	
-	method arma() {
-		return artefactos.find({cosa => self.esArma(cosa)})
-	}
-	
-	method esArma(_cosa) {
-		return _cosa.factorAtaque() > 0
-	}
-	
-	method tirarArma() {
-		game.addVisual(self.arma())
-		artefactos.remove(self.arma())
-	}
+//	method tirarArma() {
+//		game.addVisual(self.arma())
+//		artefactos.remove(self.arma())
+//	}
 	
 	
 	method ganarPelea() {

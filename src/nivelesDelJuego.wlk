@@ -9,6 +9,7 @@ object demo {
 	method iniciar() {
 		game.addVisual(enemigo1)
 		game.addVisualCharacter(personaje)
+		//objeto que configure los limites
 		config.configuracionTeclas()
 		
 	}
@@ -23,11 +24,12 @@ object config {
 		keyboard.up().onPressDo({ personaje.moverA(arriba) })
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
-	//	keyboard.space().onPressDo({ personaje.pelear() })
+		keyboard.space().onPressDo({ personaje.pelear() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	
 	method configuracionColisiones() {
-		//game.whenCollideDo(personaje,{personaje.pelear(game.uniqueCollider(personaje))})
+		//game.onCollideDo(personaje,{personaje.pelear(game.uniqueCollider(personaje))})
+		//schedule con menos daño otra opcion
 	}
 }
