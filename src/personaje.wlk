@@ -32,7 +32,7 @@ object personaje {
 	}
 	
 	method fuerza(){
-		return 10+ arma.factorAtaque()
+		return 10//+ arma.factorAtaque()
 	}
 	
 	method perder(){
@@ -43,6 +43,9 @@ object personaje {
 		artefactos.add(_artefacto)
 	}
 	
+	method arma() {
+		
+	}
 	
 
 }

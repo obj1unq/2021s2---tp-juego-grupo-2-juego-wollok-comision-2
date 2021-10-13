@@ -23,7 +23,7 @@ object enemigo1 {
 	method pelear() {
 		if (self.esMasFuerteQue(personaje)) {
 			arma.usar()
-//			personaje.morir()			
+			personaje.perder()			
 		}
 		else {
 			arma.usar()
