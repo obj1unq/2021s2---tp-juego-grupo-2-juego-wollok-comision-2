@@ -1,4 +1,7 @@
 import wollok.game.*
+import direcciones.*
+import artefactos.*
+import enemigos.*
 
 object personaje {
 
