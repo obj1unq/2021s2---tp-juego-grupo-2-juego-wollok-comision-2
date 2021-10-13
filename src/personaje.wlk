@@ -4,7 +4,7 @@ import artefactos.*
 import enemigos.*
 
 object personaje {
-	var property energia = 5 //Valor que probablemente cambie
+	var property energia = 100 
 	var property position = game.at(10, 10)
 	var property artefactos = #{}
 	
@@ -21,8 +21,10 @@ object personaje {
 	
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
-			enemigo1.morir()//ganar()
+			self.arma().usar()
+			self.ganar()
 		}else{
+			self.arma().usar()
 			self.perder()
 		}
 	}
@@ -40,12 +42,32 @@ object personaje {
 	}
 	
 	method recogerArtefacto(_artefacto){
+		self.validarRecoger()
 		artefactos.add(_artefacto)
 	}
 	
-	method arma() {
-		
+	method validarRecoger() {
+		if (artefactos.any({cosa => self.esArma(cosa)})) {
+			self.error("Ya tenes un arma")
+		}
 	}
 	
+	method arma() {
+		return artefactos.filter({cosa => self.esArma(cosa)})
+	}
+	
+	method esArma(_cosa) {
+		return _cosa.factorAtaque() > 0
+	}
+	
+	method tirarArma() {
+		game.addVisual(self.arma())
+		artefactos.remove(self.arma())
+	}
+	
+	
+	method ganar() {
+		
+	}
 
 }

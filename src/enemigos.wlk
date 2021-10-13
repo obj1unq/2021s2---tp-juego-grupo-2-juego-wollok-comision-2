@@ -35,13 +35,10 @@ object enemigo1 {
 		return self.fuerza() > alguien.fuerza()
 	}
 	
-	method recogerArma(_arma) {//Podemos agregar que el enemigo considere cambiar 
-		arma = _arma		   //el arma segun si el factor ataque del arma nueva es mayor
-	}
-	
-	method tirarArma() {
-		game.addVisual(arma)
-	}
+	//method tirarArtefacto() {
+	//	game.addVisual(arma)
+	//	 
+	//}
 	
 	method fuerza() {
 		return 5 + arma.factorAtaque()
@@ -49,7 +46,7 @@ object enemigo1 {
 	
 	method morir() {
 		energia = 0
-		self.tirarArma()
+		//self.tirarArma()
 		//Poner cuerpo de enemigo?
 	}
 }
