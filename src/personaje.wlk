@@ -45,16 +45,13 @@ object personaje {
 		return 10 + self.arma().factorAtaque()
 	}
 	
-	method perder(){
-		
-	}
 	
 	method recogerArtefacto(_artefacto){
-		self.validarRecoger()
+		self.validarRecogerArma()
 		artefactos.add(_artefacto)
 	}
 	
-	method validarRecoger() {
+	method validarRecogerArma() {
 		if (artefactos.any({cosa => self.esArma(cosa)})) {
 			self.error("Ya tenes un arma")
 		}
@@ -77,5 +74,8 @@ object personaje {
 	method ganarPelea() {
 		
 	}
-
+	
+	method perder(){
+		
+	}
 }
