@@ -2,7 +2,10 @@ import wollok.game.*
 import personaje.*
 
 program juego {
-	game.title("Juego Base")
+	game.title("Demo")
 	game.addVisual(personaje)
+	game.width(20)
+    game.height(20)
+    game.boardGround("")
 	game.start()
 }
