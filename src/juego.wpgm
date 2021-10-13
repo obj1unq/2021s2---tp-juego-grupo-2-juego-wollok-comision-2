@@ -1,11 +1,13 @@
 import wollok.game.*
 import personaje.*
+import direcciones.*
+import artefactos.*
+import enemigos.*
 
 program juego {
 	game.title("Demo")
-	game.addVisual(personaje)
 	game.width(20)
     game.height(20)
-    game.boardGround("")
+    game.boardGround("piso.jpg")
 	game.start()
 }

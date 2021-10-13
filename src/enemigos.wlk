@@ -5,11 +5,11 @@ import wollok.game.*
 
 object enemigo1 {
 	var property energia = 5 //Valor que probablemente cambie
-	var property posicion
+	var property posicion = game.at(5, 5)
 	var property arma 
 	
 	method image() {
-		//Cuando esten las imagenes de vivo y muerto termino esta parte
+		return "pepita.jpg"
 	}
 	
 	method moverA(direccion) {
