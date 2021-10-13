@@ -6,7 +6,7 @@ import enemigos.*
 object personaje {
 	var property energia = 100 
 	var property position = game.at(10, 10)
-	var property artefactos = #{}
+	var property artefactos = #{cuchillo}
 	var direccion = abajo 
 	
 
@@ -30,7 +30,7 @@ object personaje {
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
 			self.arma().usar()
-			self.ganar()
+			self.ganarPelea()
 		}else{
 			self.arma().usar()
 			self.perder()
@@ -42,7 +42,7 @@ object personaje {
 	}
 	
 	method fuerza(){
-		return 10//+ arma.factorAtaque()
+		return 10 + self.arma().factorAtaque()
 	}
 	
 	method perder(){
@@ -61,7 +61,7 @@ object personaje {
 	}
 	
 	method arma() {
-		return artefactos.filter({cosa => self.esArma(cosa)})
+		return artefactos.find({cosa => self.esArma(cosa)})
 	}
 	
 	method esArma(_cosa) {
@@ -74,7 +74,7 @@ object personaje {
 	}
 	
 	
-	method ganar() {
+	method ganarPelea() {
 		
 	}
 
