@@ -7,12 +7,20 @@ object personaje {
 	var property energia = 100 
 	var property position = game.at(10, 10)
 	var property artefactos = #{}
+	var direccion = abajo 
 	
 
-	method image() = "personaje prueba 2.png"
+	method image() {
+		return 	"policia-" + self.sufijo() + ".png" 
+	}
 	
-	method moverA(direccion) {
-		self.actualizarPosicion(direccion.siguiente(self.position()))
+	method sufijo() {
+		return direccion.sufijo()
+	}
+	
+	method moverA(_direccion) {
+		direccion = _direccion
+		self.actualizarPosicion(_direccion.siguiente(self.position()))
 	}
 	
 	method actualizarPosicion(nuevaPosicion) {
