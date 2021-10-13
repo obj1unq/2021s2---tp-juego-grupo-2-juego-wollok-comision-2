@@ -24,5 +24,6 @@ object config {
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
 		keyboard.space().onPressDo({ personaje.pelear() })
+	//	keyboard.c().onPressDo({ personaje.recogerArtefacto() })
 	}
 }
