@@ -3,6 +3,7 @@ import personaje.*
 import direcciones.*
 import artefactos.*
 import enemigos.*
+import nivelesDelJuego.*
 
 program juego {
 	game.title("Demo")
@@ -10,4 +11,6 @@ program juego {
     game.height(20)
     game.boardGround("piso.jpg")
 	game.start()
+	
+	demo.iniciar()
 }
