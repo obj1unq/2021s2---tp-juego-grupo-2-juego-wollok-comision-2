@@ -1,6 +1,15 @@
+import artefactos.*
 
-test "testX" {
+describe "Testeo de los artefactos del juego" {
 
-	assert.that(true)
-
+	test "Objeto Cuchillo" {
+		
+		assert.equals(3,cuchillo.factorAtaque())
+		assert.notThat(cuchillo.abrePuerta())
+	}
+	
+	test "Objeto Tarjeta"{
+		assert.equals(0,tarjetaEdificio.factorAtaque())
+		assert.that(tarjetaEdificio.abrePuerta())
+	}
 }
