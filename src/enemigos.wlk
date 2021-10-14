@@ -21,6 +21,8 @@ object enemigo1 {
 	}
 	
 	method pelear() {
+		self.ganar()
+		
 		if (self.esMasFuerteQue(personaje)) {
 			arma.usar()
 			personaje.perder()			
