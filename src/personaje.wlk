@@ -43,46 +43,37 @@ object personaje {
 	}
 	
 	method pegarYSufrir(){
+		//validar enemigo
 		self.lastimar(game.uniqueCollider(self))
 		self.sufrir(game.uniqueCollider(self).fuerza())
-		self.validarEnergia()
 	}
 	
 	
 	method lastimar(_enemigo) {
 		self.armaMasPoderosa().usar()
 		_enemigo.sufrir(self.fuerza())
-		
 	}
 	
 	method sufrir(danoRecibido){
 		energia  -= danoRecibido
-	}
-	
-	method validarEnergia() {
-		if (energia <= 0) {
+		if (self.validarEnergia()) {
 			self.perder()
 		}
 	}
 	
+	method validarEnergia() {
+		return energia <= 0
+	}
+	
 	method perder(){
-		self.error("YOU LOST")
+		game.say(self,"YOU LOST")
+		game.schedule(5000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
 	
 //	method tirarArma() {
 //		game.addVisual(self.arma())
 //		artefactos.remove(self.arma())
-//	}
-	
-	
-//	method ganarPelea(enemigo) {
-//		enemigo.morir()
-//		self.deduccionDeVida()
-//	}
-	
-//	method deduccionDeVida() {
-//		
 //	}
 	
 	
