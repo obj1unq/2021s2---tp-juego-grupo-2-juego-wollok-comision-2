@@ -5,13 +5,14 @@ import enemigos.*
 
 object personaje {
 	var property energia = 100 
-	var property position = game.at(10, 10)
+	var property position = game.origin()
 	var property artefactos = #{cuchillo, pistola}
 	var direccion = abajo 
 	
 
 	method image() {
-		return 	"policia-" + self.sufijo() + ".png" 
+		return "pepita.png"
+		//return 	"policia-" + self.sufijo() + ".png" 
 	}
 	
 	method sufijo() {
