@@ -6,7 +6,6 @@ import wollok.game.*
 object enemigo1 {
 	var property energia = 5 //Valor que probablemente cambie
 	var property position = game.at(5, 5)
-	//var property arma
 	
 	method image() {
 		return "pepita.png"
@@ -22,11 +21,9 @@ object enemigo1 {
 	
 	method pelear() {
 		if (self.esMasFuerteQue(personaje)) {
-//			arma.usar()
 			personaje.perder()			
 		}
 		else {
-//			arma.usar()
 			self.morir()
 		}
 	}
@@ -41,7 +38,7 @@ object enemigo1 {
 	//}
 	
 	method fuerza() {
-		return 5 //+ arma.factorAtaque()
+		return 5 + cuchillo.factorAtaque()
 	}
 	
 	method morir() {
