@@ -43,8 +43,8 @@ object personaje {
 	}
 	
 	method pegarYSufrir(){
-		self.lastimar(game.uniqueCollider(personaje))
-		self.sufrir(game.uniqueCollider(personaje).fuerza())
+		self.lastimar(game.uniqueCollider(self))
+		self.sufrir(game.uniqueCollider(self).fuerza())
 		self.validarEnergia()
 	}
 	
