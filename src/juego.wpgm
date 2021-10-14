@@ -9,6 +9,7 @@ program juego {
 	game.title("Demo")
 	game.width(20)
     game.height(20)
+    game.cellSize(25)
     game.boardGround("piso.jpg")
 	
 	

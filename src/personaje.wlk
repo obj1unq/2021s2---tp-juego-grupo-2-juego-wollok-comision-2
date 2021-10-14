@@ -4,15 +4,24 @@ import artefactos.*
 import enemigos.*
 
 object personaje {
-	var property energia = 5 //Valor que probablemente cambie
+	var property energia = 100 
 	var property position = game.at(10, 10)
-	var property artefactos = #{}
+	var property artefactos = #{cuchillo, pistola}
+	var direccion = abajo 
 	
 
-	method image() = "personaje prueba 2.png"
+	method image() {
+		return 	"policia-" + self.sufijo() + ".png" 
+	}
 	
-	method moverA(direccion) {
-		self.actualizarPosicion(direccion.siguiente(self.position()))
+	method sufijo() {
+		return direccion.sufijo()
+	}
+	
+	method moverA(_direccion) {
+		//Validar movimiento con all o any
+		direccion = _direccion
+		self.actualizarPosicion(_direccion.siguiente(self.position()))
 	}
 	
 	method actualizarPosicion(nuevaPosicion) {
@@ -21,8 +30,10 @@ object personaje {
 	
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
-			enemigo1.morir()//ganar()
+			self.armaMasPoderosa().usar()
+			self.ganarPelea()
 		}else{
+			self.armaMasPoderosa().usar()
 			self.perder()
 		}
 	}
@@ -32,20 +43,30 @@ object personaje {
 	}
 	
 	method fuerza(){
-		return 10//+ arma.factorAtaque()
+		return 10 + self.armaMasPoderosa().factorAtaque()
 	}
 	
-	method perder(){
-		
-	}
 	
 	method recogerArtefacto(_artefacto){
 		artefactos.add(_artefacto)
 	}
 	
-	method arma() {
+	
+	method armaMasPoderosa() {
+		return artefactos.max({cosa => cosa.factorAtaque()})
+	}
+	
+//	method tirarArma() {
+//		game.addVisual(self.arma())
+//		artefactos.remove(self.arma())
+//	}
+	
+	
+	method ganarPelea() {
 		
 	}
 	
-
+	method perder(){
+		
+	}
 }
