@@ -6,7 +6,7 @@ import enemigos.*
 object personaje {
 	var property energia = 100 
 	var property position = game.at(10, 10)
-	var property artefactos = #{}
+	var property artefactos = #{cuchillo, pistola}
 	var direccion = abajo 
 	
 
@@ -30,10 +30,10 @@ object personaje {
 	
 	method pelear(){
 		if(self.esMasFuerteQue(enemigo1)){
-//self.arma().usar()
+			self.armaMasPoderosa().usar()
 			self.ganarPelea()
 		}else{
-//self.arma().usar()
+			self.armaMasPoderosa().usar()
 			self.perder()
 		}
 	}
@@ -43,23 +43,17 @@ object personaje {
 	}
 	
 	method fuerza(){
-		return 10 //+ self.arma().factorAtaque()
+		return 10 + self.armaMasPoderosa().factorAtaque()
 	}
 	
 	
 	method recogerArtefacto(_artefacto){
-//		self.validarRecogerArma()
 		artefactos.add(_artefacto)
 	}
 	
-//	method validarRecogerArma() {
-//		if (artefactos.any({cosa => self.esArma(cosa)})) {
-//			self.error("Ya tenes un arma")
-//		}
-//	}
 	
-	method armaPoderosa() {
-//		return artefactos.max({cosa => self.esArma(cosa)})
+	method armaMasPoderosa() {
+		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
 //	method tirarArma() {
