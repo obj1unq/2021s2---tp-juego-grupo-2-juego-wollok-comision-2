@@ -3,12 +3,13 @@ import direcciones.*
 import artefactos.*
 import wollok.game.*
 
+
 class Enemigo{
 	var property energia
 	var property position
 	var property arma
 		
-	method image() {
+method image() {
 		return "pepita.png"
 	}
 	

@@ -29,20 +29,6 @@ object personaje {
 		position = nuevaPosicion
 	}
 	
-	method pelear(){
-		if(self.esMasFuerteQue(enemigo1)){
-			self.armaMasPoderosa().usar()
-			self.ganarPelea()
-		}else{
-			self.armaMasPoderosa().usar()
-			self.perder()
-		}
-	}
-	
-	method esMasFuerteQue(alguien) {
-		return self.fuerza() > alguien.fuerza()
-	}
-	
 	method fuerza(){
 		return 10 + self.armaMasPoderosa().factorAtaque()
 	}
@@ -57,17 +43,39 @@ object personaje {
 		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
+	method pegarYSufrir(){
+		//validar enemigo
+		self.lastimar(game.uniqueCollider(self))
+		self.sufrir(game.uniqueCollider(self).fuerza())
+	}
+	
+	
+	method lastimar(_enemigo) {
+		self.armaMasPoderosa().usar()
+		_enemigo.sufrir(self.fuerza())
+	}
+	
+	method sufrir(danoRecibido){
+		energia  -= danoRecibido
+		if (self.validarEnergia()) {
+			self.perder()
+		}
+	}
+	
+	method validarEnergia() {
+		return energia <= 0
+	}
+	
+	method perder(){
+		game.say(self,"YOU LOST")
+		game.schedule(5000, {game.stop()})
+		//Opcionalmente ponemos una foto del cadaver
+	}
+	
 //	method tirarArma() {
 //		game.addVisual(self.arma())
 //		artefactos.remove(self.arma())
 //	}
 	
 	
-	method ganarPelea() {
-		
-	}
-	
-	method perder(){
-		
-	}
 }

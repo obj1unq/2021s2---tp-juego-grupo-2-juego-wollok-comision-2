@@ -26,7 +26,7 @@ object pistola{
 	}
 		
 	method factorAtaque(){		
-		return 5.min(8 - usos)	//(8 - usos) || 5
+		return 5.max(8 - usos)	//(8 - usos) || 5
 		//Correjir calcula mal
 	}
 	
@@ -48,7 +48,7 @@ object escopeta{
 	}
 	
 	method factorAtaque(){
-		return 10.min(20-usos*3)//(20 - usos x 3) || 10
+		return 10.max(20-usos*3)//(20 - usos x 3) || 10
 		//Aca tambien
 	}
 	
