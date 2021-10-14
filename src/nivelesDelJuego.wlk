@@ -6,8 +6,13 @@ import enemigos.*
 
 object demo {
 
-	method iniciar() {
-		game.addVisual(enemigo1)
+	method iniciar() { 
+		game.addVisual(new Enemigo(
+			energia = 20,
+			position = game.at(5,5),
+			arma = cuchillo
+		))
+		game.addVisual(jefeEnemigo)
 		game.addVisualCharacter(personaje)
 		//objeto que configure los limites
 		config.configuracionTeclas()
