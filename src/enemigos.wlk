@@ -2,6 +2,7 @@ import personaje.*
 import direcciones.*
 import artefactos.*
 import wollok.game.*
+import randomizer.*
 
 
 class Enemigo{
@@ -15,7 +16,7 @@ method image() {
 	
 	//Agregar comportamiento IA
 	method moverA(direccion) {
-		//if(self.sePuedeMoverA(direccion)){
+		//if(self.sePuedeMoverA(direccion)){Para no pararse sobre una pared o puerta
 		self.actualizarPosicion(direccion.siguiente(self.position()))
 		//}
 	}
@@ -24,30 +25,30 @@ method image() {
 		position = nuevaPosicion
 	}
 	
-	method pelear() {
-			
-		if (self.esMasFuerteQue(personaje)){
-			self.ganarPelea()		
-		}
-		else {
-			self.morir()
-		}
-	}
-	
-	method esMasFuerteQue(alguien) {
-		return self.fuerza() > alguien.fuerza()
+	method sufrir(fuerzaPersonaje) {
+		energia -= fuerzaPersonaje
+		
 	}
 		
 	method fuerza() {
 		return arma.factorAtaque()
 	}
 	
-	method ganarPelea(){
-		personaje.perder()
-	}
-	
 	method morir() {
-		energia = 0
+		game.removeVisual(self)
+//		game.AddVisual() Posible cadaver
+	}
+	method validarEnergia() {
+		if (energia <= 0) {
+			self.morir()
+		} 
+	}
+}
+
+object enemigoFactory {
+	
+	method nuevoEnemigo() {
+		game.addVisual(new Enemigo(arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
 	}
 }
 

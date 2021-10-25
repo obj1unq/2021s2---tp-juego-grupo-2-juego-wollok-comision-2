@@ -4,15 +4,14 @@ import artefactos.*
 import enemigos.*
 
 object personaje {
-	var property energia = 100 
+	var property energia = 200 
 	var property position = game.origin()
 	var property artefactos = #{cuchillo, pistola}
 	var direccion = abajo 
 	
 
 	method image() {
-		return "pepita.png"
-		//return 	"policia-" + self.sufijo() + ".png" 
+		return 	"policia-" + self.sufijo() + ".png" 
 	}
 	
 	method sufijo() {
@@ -56,7 +55,7 @@ object personaje {
 	}
 	
 	method sufrir(danoRecibido){
-		energia  -= danoRecibido
+		energia -= danoRecibido
 		if (self.validarEnergia()) {
 			self.perder()
 		}

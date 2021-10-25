@@ -12,6 +12,7 @@ object cuchillo{
 	method usar() {
 		// No hace nada por el polimorfismo
 	}
+	
 	method abrePuerta(){
 		return false
 	}
@@ -60,7 +61,7 @@ object escopeta{
 		return false
 	}
 }
-
+//Clase
 object tarjetaSeguridad{
 	
 	method image() {
