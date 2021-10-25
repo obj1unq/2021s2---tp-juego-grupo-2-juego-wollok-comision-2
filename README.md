@@ -2,7 +2,6 @@
 
 ## Equipo de desarrollo
 
-- Donino, Ramiro 
 - Domínguez, Tomás
 - Fuentes, Tomás
 - Santa Cruz, Gonzalo
