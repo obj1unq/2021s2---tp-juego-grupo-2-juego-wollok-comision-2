@@ -43,11 +43,16 @@ object personaje {
 	}
 	
 	method pegarYSufrir(){
-		//validar enemigo
-		self.lastimar(game.uniqueCollider(self))
-		self.sufrir(game.uniqueCollider(self).fuerza())
+		if(self.hayEnemigo()) {
+			self.lastimar(game.uniqueCollider(self))
+		    self.sufrir(game.uniqueCollider(self).fuerza())
+		}
+		
 	}
 	
+	method hayEnemigo() {
+		return game.colliders(self).any({algo => algo.fuerza() > 0})
+	}
 	
 	method lastimar(_enemigo) {
 		self.armaMasPoderosa().usar()
@@ -70,6 +75,7 @@ object personaje {
 		game.schedule(5000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
+	
 	
 //	method tirarArma() {
 //		game.addVisual(self.arma())
