@@ -59,48 +59,6 @@ object escopeta{
 	}
 }
 
-object tarjetaSeguridad{
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 0
-	}
-	
-	method abrePuerta(){
-		return true
-		//return seguridad.esPuerta()
-	}
-}
-
-object tarjetaEdificio{
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 0
-	}
-	
-	method abrePuerta(){
-		return true
-		//return edificio.esPuerta()
-	}
-}
-class Tarjetas {
-	var property puertaQueAbre
-	
-	method abrePuerta(){
-		puertaQueAbre.Abrir()
-	}
-	method abrir(){
-		
-	}
-}
-
 class ArmaDeFuego {
 	var property balas
 	
@@ -110,6 +68,15 @@ class ArmaDeFuego {
 	method factorAtaque(){
 		return 5
 	}
+}
+
+class Tarjetas {
+	var property puertaQueAbre
+	
+	method abrePuerta(){
+//		puertaQueAbre.Abrir()
+	}
+
 }
 
 

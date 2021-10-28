@@ -43,10 +43,10 @@ object personaje {
 	}
 	
 	method pegarYSufrir(){
-		if(self.hayEnemigo()) {
-			self.lastimar(game.uniqueCollider(self))
+	//	if(self.hayEnemigo()) {
 		    self.sufrir(game.uniqueCollider(self).fuerza())
-		}
+			self.lastimar(game.uniqueCollider(self))
+	//	}
 		
 	}
 	

@@ -12,6 +12,8 @@ object demo {
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
+		
+		game.showAttributes(personaje)
 	}
 
 }

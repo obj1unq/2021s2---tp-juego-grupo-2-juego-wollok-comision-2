@@ -11,7 +11,7 @@ class Enemigo{
 	var property arma
 		
 method image() {
-		return "pepita.png"
+		return "policia-down.png"
 	}
 	
 	//Agregar comportamiento IA
@@ -27,7 +27,7 @@ method image() {
 	
 	method sufrir(fuerzaPersonaje) {
 		energia -= fuerzaPersonaje
-		
+		self.validarEnergia()
 	}
 		
 	method fuerza() {
@@ -55,7 +55,7 @@ object enemigoFactory {
 object jefeEnemigo {
 	var property energia = 5 //Valor que probablemente cambie
 	var property position = game.at(8, 5)
-	var property artefacto = tarjetaEdificio
+	var property artefacto = new Tarjetas(puertaQueAbre = "edificio")
 	
 	method image() {
 		return "policia-down.png"
