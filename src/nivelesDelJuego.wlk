@@ -13,7 +13,7 @@ object demo {
 			arma = cuchillo
 		))
 		game.addVisual(jefeEnemigo)
-		game.addVisualCharacter(personaje)
+		game.addVisual(personaje)
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		
