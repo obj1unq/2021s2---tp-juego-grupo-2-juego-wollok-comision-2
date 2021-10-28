@@ -51,7 +51,7 @@ object personaje {
 	}
 	
 	method hayEnemigo() {
-		return game.colliders(self).any({algo => algo.fuerza() > 0})
+		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
 	}
 	
 	method lastimar(_enemigo) {
