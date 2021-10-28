@@ -12,7 +12,6 @@ object cuchillo{
 	method usar() {
 		// No hace nada por el polimorfismo
 	}
-	
 	method abrePuerta(){
 		return false
 	}
@@ -27,8 +26,7 @@ object pistola{
 	}
 		
 	method factorAtaque(){		
-		return 5.max(8 - usos)	//(8 - usos) || 5
-		//Correjir calcula mal
+		return 5.min(8 - usos)	//(8 - usos) || 5
 	}
 	
 	method usar(){
@@ -49,8 +47,7 @@ object escopeta{
 	}
 	
 	method factorAtaque(){
-		return 10.max(20-usos*3)//(20 - usos x 3) || 10
-		//Aca tambien
+		return 10.min(20-usos*3)//(20 - usos x 3) || 10 
 	}
 	
 	method usar(){
@@ -61,7 +58,7 @@ object escopeta{
 		return false
 	}
 }
-//Clase
+
 object tarjetaSeguridad{
 	
 	method image() {
@@ -93,3 +90,30 @@ object tarjetaEdificio{
 		//return edificio.esPuerta()
 	}
 }
+class Tarjetas {
+	var property puertaQueAbre
+	
+	method abrePuerta(){
+		puertaQueAbre.Abrir()
+	}
+	method abrir(){
+		
+	}
+}
+
+class ArmaDeFuego {
+	var property balas
+	
+	method usar (){
+		balas -=1
+	}
+	method factorAtaque(){
+		return 5
+	}
+}
+
+
+
+
+
+
