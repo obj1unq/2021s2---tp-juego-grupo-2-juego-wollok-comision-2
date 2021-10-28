@@ -2,6 +2,7 @@ import personaje.*
 import direcciones.*
 import artefactos.*
 import wollok.game.*
+import randomizer.*
 
 
 class Enemigo{
@@ -10,12 +11,12 @@ class Enemigo{
 	var property arma
 		
 method image() {
-		return "pepita.png"
+		return "policia-down.png"
 	}
 	
 	//Agregar comportamiento IA
 	method moverA(direccion) {
-		//if(self.sePuedeMoverA(direccion)){
+		//if(self.sePuedeMoverA(direccion)){Para no pararse sobre una pared o puerta
 		self.actualizarPosicion(direccion.siguiente(self.position()))
 		//}
 	}
@@ -24,37 +25,37 @@ method image() {
 		position = nuevaPosicion
 	}
 	
-	method pelear() {
-			
-		if (self.esMasFuerteQue(personaje)){
-			self.ganarPelea()		
-		}
-		else {
-			self.morir()
-		}
-	}
-	
-	method esMasFuerteQue(alguien) {
-		return self.fuerza() > alguien.fuerza()
+	method sufrir(fuerzaPersonaje) {
+		energia -= fuerzaPersonaje
+		self.validarEnergia()
 	}
 		
 	method fuerza() {
 		return arma.factorAtaque()
 	}
 	
-	method ganarPelea(){
-		personaje.perder()
-	}
-	
 	method morir() {
-		energia = 0
+		game.removeVisual(self)
+//		game.AddVisual() Posible cadaver
+	}
+	method validarEnergia() {
+		if (energia <= 0) {
+			self.morir()
+		} 
+	}
+}
+
+object enemigoFactory {
+	
+	method nuevoEnemigo() {
+		game.addVisual(new Enemigo(arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
 	}
 }
 
 object jefeEnemigo {
 	var property energia = 5 //Valor que probablemente cambie
 	var property position = game.at(8, 5)
-	var property artefacto = tarjetaEdificio
+	var property artefacto = new Tarjetas(puertaQueAbre = "edificio")
 	
 	method image() {
 		return "policia-down.png"

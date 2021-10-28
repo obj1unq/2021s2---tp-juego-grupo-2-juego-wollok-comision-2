@@ -4,15 +4,14 @@ import artefactos.*
 import enemigos.*
 
 object personaje {
-	var property energia = 100 
+	var property energia = 200 
 	var property position = game.origin()
 	var property artefactos = #{cuchillo, pistola}
 	var direccion = abajo 
 	
 
 	method image() {
-		return "pepita.png"
-		//return 	"policia-" + self.sufijo() + ".png" 
+		return 	"policia-" + self.sufijo() + ".png" 
 	}
 	
 	method sufijo() {
@@ -44,11 +43,16 @@ object personaje {
 	}
 	
 	method pegarYSufrir(){
-		//validar enemigo
-		self.lastimar(game.uniqueCollider(self))
-		self.sufrir(game.uniqueCollider(self).fuerza())
+	//	if(self.hayEnemigo()) {
+		    self.sufrir(game.uniqueCollider(self).fuerza())
+			self.lastimar(game.uniqueCollider(self))
+	//	}
+		
 	}
 	
+	method hayEnemigo() {
+		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
+	}
 	
 	method lastimar(_enemigo) {
 		self.armaMasPoderosa().usar()
@@ -56,7 +60,7 @@ object personaje {
 	}
 	
 	method sufrir(danoRecibido){
-		energia  -= danoRecibido
+		energia -= danoRecibido
 		if (self.validarEnergia()) {
 			self.perder()
 		}
@@ -71,6 +75,7 @@ object personaje {
 		game.schedule(5000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
+	
 	
 //	method tirarArma() {
 //		game.addVisual(self.arma())

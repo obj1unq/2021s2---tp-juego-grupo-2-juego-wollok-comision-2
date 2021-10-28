@@ -7,16 +7,14 @@ import enemigos.*
 object demo {
 
 	method iniciar() { 
-		game.addVisual(new Enemigo(
-			energia = 20,
-			position = game.at(5,5),
-			arma = cuchillo
-		))
-		game.addVisual(jefeEnemigo)
+
+		//game.addVisual(jefeEnemigo)
 		game.addVisual(personaje)
 		//objeto que configure los limites
 		config.configuracionTeclas()
+		config.configuracionEnemigos()
 		
+		game.showAttributes(personaje)
 	}
 
 }
@@ -36,5 +34,9 @@ object config {
 	method configuracionColisiones() {
 		//game.onCollideDo(personaje,{personaje.pelear(game.uniqueCollider(personaje))})
 		//schedule con menos daño otra opcion
+	}
+	
+	method configuracionEnemigos() {
+		game.onTick(4000, "ENEMIGOS", {enemigoFactory.nuevoEnemigo()})
 	}
 }
