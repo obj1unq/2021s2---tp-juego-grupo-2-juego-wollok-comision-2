@@ -13,7 +13,7 @@ object demo {
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
-		
+		escena.agregarParedes()
 		game.showAttributes(personaje)
 	}
 
@@ -38,5 +38,35 @@ object config {
 	
 	method configuracionEnemigos() {
 		game.onTick(4000, "ENEMIGOS", {enemigoFactory.nuevoEnemigo()})
+	}
+}
+
+object escena {
+	const ancho = game.width()	
+	var property filaParedes = []
+	var xs
+	
+	method positionList(){
+		return (0..ancho-1).map({x=>x})
+	}
+	method agregarParedes(){
+		xs = self.positionList()		
+		xs.forEach {x => 
+			paredFactory.nuevaPared(x,0)
+		}		
+	}
+	
+}
+object paredFactory{
+	method nuevaPared(x,y) {
+		game.addVisual(new Pared(position = game.at(x,y)))
+	}
+}
+
+class Pared {
+	var property position
+	
+	method image(){
+		return('pared.png')
 	}
 }
