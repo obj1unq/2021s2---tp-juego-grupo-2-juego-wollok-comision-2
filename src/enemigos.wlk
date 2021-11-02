@@ -88,7 +88,7 @@ object jefeEnemigo {
 	}
 	
 	method fuerza() {
-		return escopeta.factorAtaque()
+		return 0//escopeta.factorAtaque()
 	}
 	
 	method morir() {
