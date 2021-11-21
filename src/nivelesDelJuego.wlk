@@ -5,6 +5,7 @@ import artefactos.*
 import enemigos.*
 
 object demo {
+	var property escenaNivel = nivel1
 
 	method iniciar() {
 		
@@ -12,8 +13,8 @@ object demo {
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
-		config.reproducirSonido()
-		escena.agregarParedes()
+		config.reproducirSonido()		
+		escenaNivel.dibujarParedes()
 		game.showAttributes(personaje)
 	}
 }
@@ -51,43 +52,24 @@ object config {
 }
 
 object escena {
-	const ancho = game.width()
-	const alto = game.height()	
+	const property ancho = game.width()
+	const property alto = game.height()
 	const property paredesX = (0..ancho-1)
 	const property paredesY = (0..alto-1)
-	var property paredes = []
-	var indice = 0
 	
-	method mapPositionsInX(){
-		paredesX.forEach{
-			x => paredes.add(x)
-		}
+	//Armar lista de posiciones a mano
+	method filaPosiciones(xInicial, xFinal, y){
+		return (xInicial .. xFinal).map({ x => game.at(x,y) })
 	}
-	method mapPositionsInY(){
-		paredesY.forEach{
-			y => paredes.add(y)
-		}
-	}
-	method positionsAsList(){
-		paredes.forEach{ x =>			
-			self.armarPosiciones(x,indice)	
-			indice++		
-		}
-	}
-	
-	method armarPosiciones(coord,i){
-		if(i<ancho){
-			paredes.add(game.at(coord,0))
-		} else {
-			paredes.add(game.at(0,coord))
-		}
-	}
-
-	method agregarParedes(){			
-		paredes.forEach {pos => 
-			paredFactory.nuevaPared(paredes)
-		}		
+	method columnaPosiciones(yInicial, yFinal, x){
+		return (yInicial .. yFinal).map({ y => game.at(x,y) })
 	}	
+	method esFila(pos){
+		const y = pos.get(0).y()
+		return pos.all({
+			p => p.y() == y
+		})
+	}
 }
 
 object sonidos{
@@ -96,15 +78,52 @@ object sonidos{
 	method loopOn() {audio.shouldLoop(true)}
 }
 object paredFactory{
-	method nuevaPared(position) {
-		game.addVisual(new Pared(position = position))
+	
+	method nuevasParedes(positionsList, image){
+		positionsList.forEach{
+			pos => 
+			self.nuevaPared(pos, image)
+		}
+	}
+	
+	method nuevaPared(positions, image) {
+		positions.forEach{	
+			position =>		
+			game.addVisual(new Pared(position = position,image = image ))
+		}
+	}
+}
+object nivel1{
+	const pared = 'pared.png'
+
+	const property paredes = [
+		escena.filaPosiciones(0, escena.ancho() , 0),
+		escena.filaPosiciones(0, escena.ancho() , escena.alto()-1),
+		escena.columnaPosiciones(0, escena.alto() , 0),
+		escena.columnaPosiciones(0, escena.alto() , escena.ancho()-1)
+	]
+	
+	method nuevaFila(positions){
+		paredFactory.nuevasParedes(positions, pared)
+	}
+	method nuevaColumna(positions){
+		paredFactory.nuevasParedes(positions, pared)
+	}
+	method dibujarParedes(){			
+		paredes.forEach {pos =>
+			if(escena.esFila(pos)){
+				self.nuevaFila(paredes)
+			}else{
+				self.nuevaColumna(paredes)
+			}
+		}
 	}
 }
 
-class Pared {
+class Pared{
 	var property position
-	
-	method image(){
-		return('pared.png')
-	}
+	var property image
 }
+}
+//object columna{ const property image = 'columna.png'}
+//object pared{ const property image = 'pared.png'}
