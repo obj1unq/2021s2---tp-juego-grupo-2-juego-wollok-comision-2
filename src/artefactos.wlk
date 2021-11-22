@@ -58,58 +58,34 @@ object escopeta{
 		return false
 	}
 }
+//class artefacto {
+//	
+//}
 
-object tarjetaSeguridad{
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 0
-	}
-	
-	method abrePuerta(){
-		return true
-		//return seguridad.esPuerta()
-	}
-}
-
-object tarjetaEdificio{
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 0
-	}
-	
-	method abrePuerta(){
-		return true
-		//return edificio.esPuerta()
-	}
-}
-class Tarjetas {
-	var property puertaQueAbre
-	
-	method abrePuerta(){
-		puertaQueAbre.Abrir()
-	}
-	method abrir(){
-		
-	}
-}
 
 class ArmaDeFuego {
 	var property balas
+	var property poder
 	
 	method usar (){
 		balas -=1
 	}
 	method factorAtaque(){
-		return 5
+		return poder.min(10+balas)
 	}
+	
+	method abrePuerta(){
+		return false
+	}
+}
+
+class Tarjetas {
+	var property puertaQueAbre
+	
+	method abrePuerta(){
+//		puertaQueAbre.Abrir()
+	}
+
 }
 
 

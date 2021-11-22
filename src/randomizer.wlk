@@ -1,4 +1,5 @@
 import wollok.game.*
+import nivelesDelJuego.*
  
 object randomizer {
 		
@@ -25,6 +26,11 @@ object randomizer {
 	
 	method energy() {
 		return (15..25).anyOne()
+	}
+	
+	method niveles() {
+		const nivelesVarios = []
+		return 0
 	}
 	
 }

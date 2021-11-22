@@ -8,10 +8,10 @@ import nivelesDelJuego.*
 program juego {
 	game.title("Demo")
 
-	game.width(35)
-    game.height(35)
-    game.cellSize(20)
+	game.width(10)
+    game.height(10)
+    game.cellSize(64)
     game.boardGround("piso.jpg")
 	demo.iniciar()
-	game.start()
+	game.start()	
 }

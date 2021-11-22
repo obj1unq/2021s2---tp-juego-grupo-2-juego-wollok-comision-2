@@ -44,14 +44,14 @@ object personaje {
 	
 	method pegarYSufrir(){
 		if(self.hayEnemigo()) {
-			self.lastimar(game.uniqueCollider(self))
 		    self.sufrir(game.uniqueCollider(self).fuerza())
+			self.lastimar(game.uniqueCollider(self))
 		}
 		
 	}
 	
 	method hayEnemigo() {
-		return game.colliders(self).any({algo => algo.fuerza() > 0})
+		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
 	}
 	
 	method lastimar(_enemigo) {
