@@ -124,6 +124,6 @@ class Pared{
 	var property position
 	var property image
 }
-}
+
 //object columna{ const property image = 'columna.png'}
 //object pared{ const property image = 'pared.png'}
