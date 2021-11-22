@@ -90,7 +90,9 @@ class Botiquin {
 	
 	
 }
-class Municion{
+class Municion{ 
+	
+	
 	
 	method recargarLasBalas(){
 		
