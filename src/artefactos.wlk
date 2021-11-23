@@ -58,15 +58,24 @@ object escopeta{
 		return false
 	}
 }
+//class artefacto {
+//	
+//}
+
 
 class ArmaDeFuego {
 	var property balas
+	var property poder
 	
 	method usar (){
 		balas -=1
 	}
 	method factorAtaque(){
-		return 5
+		return poder.min(10+balas)
+	}
+	
+	method abrePuerta(){
+		return false
 	}
 }
 

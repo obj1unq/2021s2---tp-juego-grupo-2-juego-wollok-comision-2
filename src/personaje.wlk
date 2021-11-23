@@ -84,3 +84,15 @@ object personaje {
 	
 	
 }
+
+
+class Botiquin {
+	
+	
+}
+class Municion{
+	
+	method recargarLasBalas(){
+		
+	}
+}
