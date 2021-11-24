@@ -1,6 +1,8 @@
 //import extras.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
+	const balas = 0
+	
 	method image() {
 		
 	}
