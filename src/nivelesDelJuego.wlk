@@ -35,7 +35,8 @@ object config {
 		keyboard.up().onPressDo({ personaje.moverA(arriba) })
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
-		keyboard.space().onPressDo({ personaje.pegarYSufrir() })
+		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
+	//	keyboard.space().onPressDo({ personaje.pegarYSufrir() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	

@@ -10,7 +10,9 @@ class Enemigo{
 	var property position
 	var property arma
 		
-method image() {
+	method esSolido() = false
+	
+	method image() {
 		return "policia-down.png"
 	}
 	

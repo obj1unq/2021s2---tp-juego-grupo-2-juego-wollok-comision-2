@@ -5,8 +5,8 @@ import enemigos.*
 
 object personaje {
 	var property energia = 200 
-	var property position = game.origin()
-	var property artefactos = #{cuchillo, pistola}
+	var property position = game.at(1, 1)
+	var property artefactos = #{cuchillo}
 	var direccion = abajo 
 	
 
@@ -31,9 +31,7 @@ object personaje {
 	
 	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
-	method fuerza(){
-		return 10 + self.armaMasPoderosa().factorAtaque()
-	}
+	method fuerza(arma) = 10 + arma.factorAtaque()
 	
 	method recogerArtefacto(_artefacto){
 		artefactos.add(_artefacto)
@@ -43,21 +41,24 @@ object personaje {
 		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
-	method pegarYSufrir(){
+	method cuerpoACuerpo(){
 		if(self.hayEnemigo()) {
 		    self.sufrir(game.uniqueCollider(self).fuerza())
-			self.lastimar(game.uniqueCollider(self))
+			self.cortar(game.uniqueCollider(self))
 		}
-		
 	}
 	
 	method hayEnemigo() {
 		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
 	}
 	
+	method cortar(_enemigo) {
+		_enemigo.sufrir(self.fuerza(cuchillo))
+	}
+	
 	method lastimar(_enemigo) {
 		self.armaMasPoderosa().usar()
-		_enemigo.sufrir(self.fuerza())
+		_enemigo.sufrir(self.fuerza(self.armaMasPoderosa()))
 	}
 	
 	method sufrir(danoRecibido){
@@ -73,7 +74,7 @@ object personaje {
 	
 	method perder(){
 		game.say(self,"YOU LOST")
-		game.schedule(2000, {game.stop()})
+		game.schedule(1000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
 	
