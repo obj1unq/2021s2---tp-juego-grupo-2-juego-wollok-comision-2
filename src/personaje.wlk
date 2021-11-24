@@ -19,24 +19,25 @@ object personaje {
 	}
 	
 	method moverA(_direccion) {
-		//Validar movimiento con all o any
 		direccion = _direccion
 		self.actualizarPosicion(_direccion.siguiente(self.position()))
 	}
 	
 	method actualizarPosicion(nuevaPosicion) {
-		position = nuevaPosicion
+		position = self.posicionActualONueva(nuevaPosicion)
 	}
+	
+	method posicionActualONueva(nuevaPosicion) = if (self.validarPosicion(nuevaPosicion)) {position} else {nuevaPosicion}
+	
+	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
 	method fuerza(){
 		return 10 + self.armaMasPoderosa().factorAtaque()
 	}
 	
-	
 	method recogerArtefacto(_artefacto){
 		artefactos.add(_artefacto)
 	}
-	
 	
 	method armaMasPoderosa() {
 		return artefactos.max({cosa => cosa.factorAtaque()})
@@ -72,7 +73,7 @@ object personaje {
 	
 	method perder(){
 		game.say(self,"YOU LOST")
-		game.schedule(5000, {game.stop()})
+		game.schedule(2000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
 	
