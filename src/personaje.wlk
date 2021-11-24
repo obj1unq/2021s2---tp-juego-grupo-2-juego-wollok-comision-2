@@ -6,7 +6,7 @@ import enemigos.*
 object personaje {
 	var property energia = 200 
 	var property position = game.at(1, 1)
-	var property artefactos = #{cuchillo}
+	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10)}
 	var direccion = abajo 
 	
 
@@ -41,6 +41,16 @@ object personaje {
 		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
+	method disparar() {
+		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = self.fuerza(self.armaMasPoderosa()))
+		self.armaMasPoderosa().usar()
+		game.addVisual(tiro)
+		game.onTick(300, "Ricochet", {tiro.desplazarse()})
+		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
+								game.removeTickEvent("Ricochet")
+								game.removeVisual(tiro)})
+	}
+	
 	method cuerpoACuerpo(){
 		if(self.hayEnemigo()) {
 		    self.sufrir(game.uniqueCollider(self).fuerza())
@@ -54,11 +64,6 @@ object personaje {
 	
 	method cortar(_enemigo) {
 		_enemigo.sufrir(self.fuerza(cuchillo))
-	}
-	
-	method lastimar(_enemigo) {
-		self.armaMasPoderosa().usar()
-		_enemigo.sufrir(self.fuerza(self.armaMasPoderosa()))
 	}
 	
 	method sufrir(danoRecibido){

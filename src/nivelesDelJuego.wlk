@@ -8,8 +8,12 @@ class Pared{
 	var property position
 	var property image
 	
-	method esPasable(){
-		return false
+	method esSolido(){
+		return true
+	}
+	
+	method sufrir(nada){
+		//No hace nada por el polimorfismo
 	}
 }
 
@@ -36,7 +40,7 @@ object config {
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
 		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
-	//	keyboard.space().onPressDo({ personaje.pegarYSufrir() })
+		keyboard.space().onPressDo({ personaje.disparar() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	

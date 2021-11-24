@@ -22,7 +22,7 @@ class ArmaDeFuego {
 	var property poder
 	
 	method usar (){
-		balas -=1
+		balas -= 1
 	}
 	method factorAtaque(){
 		return poder.min(10+balas)
@@ -31,6 +31,29 @@ class ArmaDeFuego {
 	method abrePuerta(){
 		return false
 	}
+}
+
+class Bala {
+	var property poder
+	var property position
+	var property direccionBala
+	
+	method image() = "Bala.png"
+	
+	
+	method desplazarse(){
+		self.actualizarPosicion(direccionBala.siguiente(self.position()))
+	}
+	
+	method actualizarPosicion(nuevaPosicion) {
+		position = nuevaPosicion
+	}
+	
+	method impacto(objeto) {
+		objeto.sufrir(poder)
+	}
+	
+	method sufrir(dano) {}
 }
 
 class Tarjetas {

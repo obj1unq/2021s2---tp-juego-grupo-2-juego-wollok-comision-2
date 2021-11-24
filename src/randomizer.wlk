@@ -25,7 +25,7 @@ object randomizer {
 	}
 	
 	method energy() {
-		return (15..25).anyOne()
+		return (15..20).anyOne()
 	}
 	
 	method niveles() {
