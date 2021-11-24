@@ -52,12 +52,10 @@ object enemigoFactory {
 	}
 }
 
-object jefeEnemigo {
-	var property energia = 5 //Valor que probablemente cambie
-	var property position = game.at(8, 5)
+class JefeEnemigo inherits Enemigo{
 	var property artefacto = new Tarjetas(puertaQueAbre = "edificio")
 	
-	method image() {
+	override method image() {
 		return "policia-down.png"
 	}
 	
@@ -65,9 +63,6 @@ object jefeEnemigo {
 		self.actualizarPosicion(direccion.siguiente(self.position()))
 	}
 	
-	method actualizarPosicion(nuevaPosicion) {
-		position = nuevaPosicion
-	}
 	
 	method pelear() {
 		self.ganarPelea()		
@@ -87,11 +82,9 @@ object jefeEnemigo {
 		game.addVisual(artefacto) 
 	}
 	
-	method fuerza() {
-		return 0//escopeta.factorAtaque()
-	}
 	
-	method morir() {
+	
+	override method morir() {
 		energia = 0
 		self.tirarArtefacto()
 		//Poner cuerpo de enemigo?
