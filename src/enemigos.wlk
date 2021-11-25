@@ -9,33 +9,35 @@ class Enemigo{
 	var property energia
 	var property position
 	var property arma
+	var property direccion
 		
 	method esSolido() = false
 	
-	method image() {
-		return "policia-down.png"
+	method image() = "policia-" + self.sufijo() + ".png"
+	
+	method sufijo() = direccion.sufijo()
+	
+	method fuerza() = arma.factorAtaque()
+	
+	method moverA(_direccion) {
+		direccion = _direccion
+		self.actualizarPosicion(direccion.siguiente(self.position()))
 	}
 	
-	//Agregar comportamiento IA
-	method moverA(direccion) {
-		//if(self.sePuedeMoverA(direccion)){Para no pararse sobre una pared o puerta
-		self.actualizarPosicion(direccion.siguiente(self.position()))
-		//}
-	}
 	
 	method actualizarPosicion(nuevaPosicion) {
-		position = nuevaPosicion
+		position = self.posicionActualONueva(nuevaPosicion)
 	}
+	
+	method posicionActualONueva(nuevaPosicion) = if (self.validarPosicion(nuevaPosicion)) {position} else {nuevaPosicion}
+	
+	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
 	method sufrir(fuerzaPersonaje) {
 		energia -= fuerzaPersonaje
 		self.validarEnergia()
 	}
 		
-	method fuerza() {
-		return arma.factorAtaque()
-	}
-	
 	method morir() {
 		game.removeVisual(self)
 //		game.AddVisual() Posible cadaver
@@ -50,7 +52,7 @@ class Enemigo{
 object enemigoFactory {
 	
 	method nuevoEnemigo() {
-		game.addVisual(new Enemigo(arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
+		game.addVisual(new Enemigo(direccion = abajo, arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
 	}
 }
 

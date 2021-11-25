@@ -40,8 +40,9 @@ class Bala {
 	var property position
 	var property direccionBala
 	
-	method image() = "Bala.png"
+	method image() = "Bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
 	
+	method sufijo() = direccionBala.sufijo()
 	
 	method desplazarse(){
 		self.actualizarPosicion(direccionBala.siguiente(self.position()))

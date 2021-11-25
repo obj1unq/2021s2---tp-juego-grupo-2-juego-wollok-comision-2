@@ -10,13 +10,9 @@ object personaje {
 	var direccion = abajo 
 	
 
-	method image() {
-		return 	"policia-" + self.sufijo() + ".png" 
-	}
+	method image() = "policia-" + self.sufijo() + ".png"
 	
-	method sufijo() {
-		return direccion.sufijo()
-	}
+	method sufijo() = direccion.sufijo()
 	
 	method moverA(_direccion) {
 		direccion = _direccion
@@ -41,6 +37,14 @@ object personaje {
 		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
+	method armaEstaCargada(arma) = arma.balas() > 0
+	
+	method dispararSiTieneBalas() {
+		if (self.armaEstaCargada(self.armaMasPoderosa())) {
+			self.disparar()
+		}
+	}
+	
 	method disparar() {
 		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = self.fuerza(self.armaMasPoderosa()))
 		self.armaMasPoderosa().usar()
@@ -58,9 +62,7 @@ object personaje {
 		}
 	}
 	
-	method hayEnemigo() {
-		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
-	}
+	method hayEnemigo() = game.colliders(self).any({algo => algo.fuerza() > 0})
 	
 	method cortar(_enemigo) {
 		_enemigo.sufrir(self.fuerza(cuchillo))
@@ -73,9 +75,7 @@ object personaje {
 		}
 	}
 	
-	method validarEnergia() {
-		return energia <= 0
-	}
+	method validarEnergia() = energia <= 0
 	
 	method perder(){
 		game.say(self,"YOU LOST")
