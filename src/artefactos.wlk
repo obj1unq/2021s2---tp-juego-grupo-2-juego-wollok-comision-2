@@ -2,6 +2,8 @@ import wollok.game.*
 import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
+	const balas = 0
+	
 	method image() {
 		
 	}
@@ -18,58 +20,12 @@ object cuchillo{
 	}
 }
 
-object pistola{
-	var usos = 0
-	//var balas = 3
-	
-	method image() {
-		
-	}
-		
-	method factorAtaque(){		
-		return 5.min(8 - usos)	//(8 - usos) || 5
-	}
-	
-	method usar(){
-		usos += 1
-		//balas -= 1
-	}
-
-	method abrePuerta(){
-		return false
-	}
-}
-
-object escopeta{
-	var usos = 0
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 10.min(20-usos*3)//(20 - usos x 3) || 10 
-	}
-	
-	method usar(){
-		usos += 1		
-	}
-	
-	method abrePuerta(){
-		return false
-	}
-}
-//class artefacto {
-//	
-//}
-
-
 class ArmaDeFuego {
 	var property balas
 	var property poder
 	
 	method usar (){
-		balas -=1
+		balas -= 1
 	}
 	method factorAtaque(){
 		return poder.min(10+balas)
@@ -78,6 +34,30 @@ class ArmaDeFuego {
 	method abrePuerta(){
 		return false
 	}
+}
+
+class Bala {
+	var property poder
+	var property position
+	var property direccionBala
+	
+	method image() = "Bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
+	
+	method sufijo() = direccionBala.sufijo()
+	
+	method desplazarse(){
+		self.actualizarPosicion(direccionBala.siguiente(self.position()))
+	}
+	
+	method actualizarPosicion(nuevaPosicion) {
+		position = nuevaPosicion
+	}
+	
+	method impacto(objeto) {
+		objeto.sufrir(poder)
+	}
+	
+	method sufrir(dano) {}
 }
 
 class Tarjetas {

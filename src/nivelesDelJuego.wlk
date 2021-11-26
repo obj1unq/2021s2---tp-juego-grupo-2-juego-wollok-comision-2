@@ -16,6 +16,14 @@ class Pared{
 				|| self.position().x() == escena.ancho()-1
 				|| self.position().y() == escena.alto()-1
 	}
+	
+	method esSolido(){
+		return true
+	}
+	
+	method sufrir(nada){
+		//No hace nada por el polimorfismo
+	}
 }
 
 object habitacion{
@@ -44,11 +52,11 @@ object habitacion{
 	method dibujarParedes(positions){
 		positions.flatten().forEach {pos =>
 			paredFactory.nuevaPared(pos)
-		}
+		}	
 	}
 }
 
-object demo {
+object demo{
 	var property escenaNivel = new Nivel(paredPosiciones = 
 		habitacion.limites() +
 		habitacion.generarHabitacion(0,5,0,5) +
@@ -74,7 +82,8 @@ object config {
 		keyboard.up().onPressDo({ personaje.moverA(arriba) })
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
-		keyboard.space().onPressDo({ personaje.pegarYSufrir() })
+		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
+		keyboard.space().onPressDo({ personaje.disparar() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	

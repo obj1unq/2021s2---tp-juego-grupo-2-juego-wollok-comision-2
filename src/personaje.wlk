@@ -5,19 +5,15 @@ import enemigos.*
 
 object personaje {
 	var property energia = 200 
-	var property position = game.origin()
-	var property artefactos = #{cuchillo, pistola}
+	var property position = game.at(1, 1)
+	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10)}
 	var direccion = abajo 
 	const property esSolido = false
 	
 
-	method image() {
-		return 	"policia-" + self.sufijo() + ".png" 
-	}
+	method image() = "policia-" + self.sufijo() + ".png"
 	
-	method sufijo() {
-		return direccion.sufijo()
-	}
+	method sufijo() = direccion.sufijo()
 	
 	method moverA(_direccion) {
 		direccion = _direccion
@@ -32,9 +28,7 @@ object personaje {
 	
 	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
-	method fuerza(){
-		return 10 + self.armaMasPoderosa().factorAtaque()
-	}
+	method fuerza(arma) = 10 + arma.factorAtaque()
 	
 	method recogerArtefacto(_artefacto){
 		artefactos.add(_artefacto)
@@ -44,21 +38,35 @@ object personaje {
 		return artefactos.max({cosa => cosa.factorAtaque()})
 	}
 	
-	method pegarYSufrir(){
+	method armaEstaCargada(arma) = arma.balas() > 0
+	
+	method dispararSiTieneBalas() {
+		if (self.armaEstaCargada(self.armaMasPoderosa())) {
+			self.disparar()
+		}
+	}
+	
+	method disparar() {
+		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = self.fuerza(self.armaMasPoderosa()))
+		self.armaMasPoderosa().usar()
+		game.addVisual(tiro)
+		game.onTick(300, "Ricochet", {tiro.desplazarse()})
+		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
+								game.removeTickEvent("Ricochet")
+								game.removeVisual(tiro)})
+	}
+	
+	method cuerpoACuerpo(){
 		if(self.hayEnemigo()) {
 		    self.sufrir(game.uniqueCollider(self).fuerza())
-			self.lastimar(game.uniqueCollider(self))
+			self.cortar(game.uniqueCollider(self))
 		}
-		
 	}
 	
-	method hayEnemigo() {
-		return game.colliders(self).any({algo => algo.fuerza() > 0})//Modifico cuando esten las paredes
-	}
+	method hayEnemigo() = game.colliders(self).any({algo => algo.fuerza() > 0})
 	
-	method lastimar(_enemigo) {
-		self.armaMasPoderosa().usar()
-		_enemigo.sufrir(self.fuerza())
+	method cortar(_enemigo) {
+		_enemigo.sufrir(self.fuerza(cuchillo))
 	}
 	
 	method sufrir(danoRecibido){
@@ -68,13 +76,11 @@ object personaje {
 		}
 	}
 	
-	method validarEnergia() {
-		return energia <= 0
-	}
+	method validarEnergia() = energia <= 0
 	
 	method perder(){
 		game.say(self,"YOU LOST")
-		game.schedule(2000, {game.stop()})
+		game.schedule(1000, {game.stop()})
 		//Opcionalmente ponemos una foto del cadaver
 	}
 	
