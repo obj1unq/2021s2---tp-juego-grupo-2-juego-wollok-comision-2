@@ -9,6 +9,7 @@ class Enemigo{
 	var property energia
 	var property position
 	var property arma
+	const property esSolido = false
 		
 method image() {
 		return "policia-down.png"
@@ -20,7 +21,7 @@ method image() {
 		self.actualizarPosicion(direccion.siguiente(self.position()))
 		//}
 	}
-	
+		
 	method actualizarPosicion(nuevaPosicion) {
 		position = nuevaPosicion
 	}
@@ -57,12 +58,7 @@ class JefeEnemigo inherits Enemigo{
 	
 	override method image() {
 		return "policia-down.png"
-	}
-	
-	method moverA(direccion) {
-		self.actualizarPosicion(direccion.siguiente(self.position()))
-	}
-	
+	}	
 	
 	method pelear() {
 		self.ganarPelea()		

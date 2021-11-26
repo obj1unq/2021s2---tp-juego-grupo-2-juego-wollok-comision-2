@@ -1,4 +1,5 @@
-//import extras.*
+import wollok.game.*
+import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
 	method image() {
@@ -83,10 +84,29 @@ class Tarjetas {
 	var property puertaQueAbre
 	
 	method abrePuerta(){
-//		puertaQueAbre.Abrir()
+		return true
 	}
 
 }
+
+class Puerta{
+	const property esSolido = true
+	const property position
+	const property image = "puerta.png"
+	
+	method abrir(){
+		if(personaje.tieneTarjeta()){
+			game.removeVisual(self)
+			game.say(personaje, "¡Escapé!")
+			game.schedule(2000,{
+				game.stop()
+			})			
+		} else {
+			game.say(personaje, "No puedo abrir la puerta")
+		}
+	}
+}
+
 
 
 

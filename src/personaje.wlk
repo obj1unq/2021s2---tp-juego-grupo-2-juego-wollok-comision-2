@@ -8,6 +8,7 @@ object personaje {
 	var property position = game.origin()
 	var property artefactos = #{cuchillo, pistola}
 	var direccion = abajo 
+	const property esSolido = false
 	
 
 	method image() {
@@ -77,7 +78,9 @@ object personaje {
 		//Opcionalmente ponemos una foto del cadaver
 	}
 	
-	
+	method tieneTarjeta(){
+		return artefactos.any({artefacto => artefacto.abrePuerta()})
+	}
 //	method tirarArma() {
 //		game.addVisual(self.arma())
 //		artefactos.remove(self.arma())

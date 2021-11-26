@@ -3,6 +3,9 @@ import nivelesDelJuego.*
  
 object randomizer {
 		
+	method index(){
+		return 0.randomUpTo(game.height().min(game.width())).truncate(0)
+	}	
 	method position() {
 		return 	game.at( 
 					(0 .. game.width() - 1 ).anyOne(),
