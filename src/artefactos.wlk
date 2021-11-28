@@ -72,7 +72,15 @@ class Tarjetas {
 class Puerta{
 	const property esSolido = true
 	const property position
-	const property image = "puerta.png"
+	const property image = "door.png"
+	
+	method posiciones(){
+		return [position]
+	}
+	
+	method seAbre(){
+		return true
+	}
 	
 	method abrir(){
 		if(personaje.tieneTarjeta()){
@@ -84,6 +92,34 @@ class Puerta{
 		} else {
 			game.say(personaje, "No puedo abrir la puerta")
 		}
+	}
+}
+
+class Pared{
+	var property position
+	var property image = 'pared.png'
+	const property esSolido = true
+	
+	method posiciones(){
+		return [position]
+	}
+	
+	method esLimite(){
+		return self.position().x()==0
+				|| self.position().y()==0
+				|| self.position().x() == game.width()-1
+				|| self.position().y() == game.height()-1
+	}
+	
+	method esSolido(){
+		return true
+	}
+	
+	method sufrir(nada){
+		//No hace nada por el polimorfismo
+	}
+	method seAbre(){
+		return false
 	}
 }
 

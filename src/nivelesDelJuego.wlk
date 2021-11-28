@@ -5,63 +5,46 @@ import artefactos.*
 import enemigos.*
 import randomizer.*
 
-class Pared{
-	var property position
-	var property image
-	const property esSolido = true
+class Habitacion{
+	var property xInicial
+	var property xFinal
+	var property yInicial
+	var property yFinal	
 	
-	method esLimite(){
-		return self.position().x()==0
-				|| self.position().y()==0
-				|| self.position().x() == escena.ancho()-1
-				|| self.position().y() == escena.alto()-1
-	}
-	
-	method esSolido(){
-		return true
-	}
-	
-	method sufrir(nada){
-		//No hace nada por el polimorfismo
-	}
-}
-
-object habitacion{
-	var property posiciones = []
-	
-	method limites(){
+	method posiciones(){
 		return 
 		[
-			escena.filaPosiciones(0, escena.ancho() , 0),
-			escena.filaPosiciones(0, escena.ancho() , escena.alto()-1),
-			escena.columnaPosiciones(0, escena.alto() , 0),
-			escena.columnaPosiciones(0, escena.alto() , escena.ancho()-1)
-		]
-	}
-	
-	method generarHabitacion(xInicial, xFinal, yInicial, yFinal){
-		return posiciones +
-			[
-				escena.filaPosiciones(xInicial, xFinal, yInicial),
-				escena.filaPosiciones(xInicial, xFinal, yFinal),
-				escena.columnaPosiciones(yInicial, yFinal, xInicial),
-				escena.columnaPosiciones(yInicial, yFinal, xFinal)
+				disenio.filaPosiciones(xInicial, xFinal, yInicial),
+				disenio.filaPosiciones(xInicial, xFinal, yFinal),
+				disenio.columnaPosiciones(yInicial, yFinal, xInicial),
+				disenio.columnaPosiciones(yInicial, yFinal, xFinal)
 			]
 	}
 	
-	method dibujarParedes(positions){
-		positions.flatten().forEach {pos =>
-			paredFactory.nuevaPared(pos)
-		}	
+	method toRender(){
+		return
+			self.posiciones().flatten().map({pos => new Pared(position = pos)})
+	}
+}
+//render
+object render{
+		
+	method limites(){
+		return new Habitacion(xInicial = 0, xFinal = game.width()-1,yInicial = 0,yFinal = game.height()-1).toRender()
+	}
+	
+	method renderizar(instance){
+		instanceFactory.nuevaInstancia(instance)		
 	}
 }
 
 object demo{
-	var property escenaNivel = new Nivel(paredPosiciones = 
-		habitacion.limites() +
-		habitacion.generarHabitacion(0,5,0,5) +
-		habitacion.generarHabitacion(6,10,5,9)		
-	)
+	var property escenaNivel = new Nivel(
+		elementos = [
+			render.limites(),
+			new Habitacion(xInicial=8, xFinal=16, yInicial= 0, yFinal=4).toRender(),
+			[new Puerta(position = game.at(1,0))]
+		])
 
 	method iniciar() {
 		personaje.position(game.at(1,1))
@@ -69,8 +52,8 @@ object demo{
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
-		config.reproducirSonido()	
-		habitacion.dibujarParedes(escenaNivel.paredPosiciones())
+		config.reproducirSonido()
+		escenaNivel.dibujarNivel()		
 		game.showAttributes(personaje)
 	}
 }
@@ -108,12 +91,10 @@ object config {
 		}
 	}
 }
-
-object escena {
-	const property ancho = game.width()
-	const property alto = game.height()
-	const property paredesX = (0..ancho-1)
-	const property paredesY = (0..alto-1)
+//diseño del nivel
+object disenio {
+	const property paredesX = (0..game.width()-1)
+	const property paredesY = (0..game.height()-1)
 	
 	//Armar lista de posiciones a mano
 	method filaPosiciones(xInicial, xFinal, y){
@@ -138,35 +119,60 @@ object musica{
 	method loopOn() {audio.shouldLoop(true)}
 }
 
-object paredFactory{
-	const pared = 'pared.png'
+object instanceFactory{
 	
-	method hayPared(posicion){
+	method hayAlgoSolido(posicion){
 			return game.getObjectsIn(posicion).any({obj => obj.esSolido()})
 	}
 		
-	method nuevaPared(position) {	
-				if(self.hayPared(position)){}else {
-					game.addVisual(new Pared(position = position,image = pared ))
+	method nuevaInstancia(instance) {	
+				if(!self.hayAlgoSolido(instance.position())){
+					game.addVisual(instance)
+				} else if(instance.seAbre()){
+					game.getObjectsIn(instance.position()).forEach{obj => game.removeVisual(obj)}
+					game.addVisual(instance)
 				}
 	}
 }
 
 class Nivel{	
-	const property paredPosiciones = []
+	var property elementos = []
+	//devuelve una posicion random de las posiciones dadas 
+	//Precond: Que sean las paredes limites y no esté bloqueada por ninguna pared hacia el interior
+
+//	method randomWallPosition(){
+//		return self.posiciones().flatten().get(randomizer.index())	
+//	}
 	
-	method randomWallPosition(positions){
-		return positions.flatten().get(randomizer.index())		
+	method wallInPosition(pos){
+		return game.getObjectsIn(pos)
 	}
 	
-	method dibujarPuertaFinal(positions){		
-		game.addVisual(
-			new Puerta(position = self.randomWallPosition(paredPosiciones))
-		)
+
+	method puertaFinal(pos){		
+		return new Puerta(position = pos)
 	}
 		
 	method dibujarNivel(){
-		habitacion.dibujarParedes(paredPosiciones)
+		elementos.flatten().forEach{
+			elem => render.renderizar(elem)
+		}
 	}
+	
+//	method agregarPuerta(posicion){
+//		return if(self.wallInPosition(posicion).any({obj=>obj.esLimite()})){
+//			new Puerta(position = posicion)
+//			}else {self.agregarPuerta(self.randomWallPosition())}
+//	}
+
+//	method finalDoorPosition(pos){
+//		if(self.wallInPosition(pos).all({
+//			obj => obj.esLimite()
+//			})){
+//			return pos
+//		} else {
+//			return pos
+//		}
+//	}
 }
 
