@@ -122,7 +122,18 @@ class Pared{
 		return false
 	}
 }
-
+class Botiquin {
+	
+	
+}
+class Municion{ 
+	
+	
+	
+	method recargarLasBalas(){
+		
+	}
+}
 
 
 
