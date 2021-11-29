@@ -3,27 +3,57 @@ import personaje.*
 import direcciones.*
 import artefactos.*
 import enemigos.*
+import randomizer.*
 
-class Pared{
-	var property position
-	var property image
+class Habitacion{
+	var property xInicial
+	var property xFinal
+	var property yInicial
+	var property yFinal	
 	
-	method esPasable(){
-		return false
+	method posiciones(){
+		return 
+		[
+				disenio.filaPosiciones(xInicial, xFinal, yInicial),
+				disenio.filaPosiciones(xInicial, xFinal, yFinal),
+				disenio.columnaPosiciones(yInicial, yFinal, xInicial),
+				disenio.columnaPosiciones(yInicial, yFinal, xFinal)
+			]
+	}
+	
+	method toRender(){
+		return
+			self.posiciones().flatten().map({pos => new Pared(position = pos)})
+	}
+}
+//render
+object render{
+		
+	method limites(){
+		return new Habitacion(xInicial = 0, xFinal = game.width()-1,yInicial = 0,yFinal = game.height()-1).toRender()
+	}
+	
+	method renderizar(instance){
+		instanceFactory.nuevaInstancia(instance)		
 	}
 }
 
-object demo {
-	var property escenaNivel = new Nivel()
+object demo{
+	var property escenaNivel = new Nivel(
+		elementos = [
+			render.limites(),
+			new Habitacion(xInicial=8, xFinal=16, yInicial= 0, yFinal=4).toRender(),
+			[new Puerta(position = game.at(1,0))]
+		])
 
 	method iniciar() {
-		
+		personaje.position(game.at(1,1))
 		game.addVisual(personaje)
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
-		config.reproducirSonido()		
-		escenaNivel.dibujarParedes(escenaNivel.generarHabitacion(3,6,6,10))
+		config.reproducirSonido()
+		escenaNivel.dibujarNivel()		
 		game.showAttributes(personaje)
 	}
 }
@@ -35,7 +65,8 @@ object config {
 		keyboard.up().onPressDo({ personaje.moverA(arriba) })
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
-		keyboard.space().onPressDo({ personaje.pegarYSufrir() })
+		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
+		keyboard.space().onPressDo({ personaje.disparar() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	
@@ -60,12 +91,10 @@ object config {
 		}
 	}
 }
-
-object escena {
-	const property ancho = game.width()
-	const property alto = game.height()
-	const property paredesX = (0..ancho-1)
-	const property paredesY = (0..alto-1)
+//diseño del nivel
+object disenio {
+	const property paredesX = (0..game.width()-1)
+	const property paredesY = (0..game.height()-1)
 	
 	//Armar lista de posiciones a mano
 	method filaPosiciones(xInicial, xFinal, y){
@@ -80,6 +109,8 @@ object escena {
 			p => p.y() == y
 		})
 	}
+	
+	
 }
 
 object musica{
@@ -87,70 +118,61 @@ object musica{
 	method setVolume(vol){audio.volume(vol)}
 	method loopOn() {audio.shouldLoop(true)}
 }
-object paredFactory{
+
+object instanceFactory{
 	
-	method hayPared(posicion){
-			return game.getObjectsIn(posicion).size()>0			
+	method hayAlgoSolido(posicion){
+			return game.getObjectsIn(posicion).any({obj => obj.esSolido()})
 	}
-	
-	method nuevasParedes(positionsList, image){
-		positionsList.forEach{
-			pos => 
-			self.nuevaPared(pos, image)
-		}
-	}
-	
-	method nuevaPared(positions, image) {
-		positions.forEach{	
-			position =>		
-				if(self.hayPared(position)){}else {
-					game.addVisual(new Pared(position = position,image = image ))
+		
+	method nuevaInstancia(instance) {	
+				if(!self.hayAlgoSolido(instance.position())){
+					game.addVisual(instance)
+				} else if(instance.seAbre()){
+					game.getObjectsIn(instance.position()).forEach{obj => game.removeVisual(obj)}
+					game.addVisual(instance)
 				}
-		}
 	}
 }
 
-class Nivel{
-	const pared = 'pared.png'
-	//var property coordenadas = []
+class Nivel{	
+	var property elementos = []
+	//devuelve una posicion random de las posiciones dadas 
+	//Precond: Que sean las paredes limites y no esté bloqueada por ninguna pared hacia el interior
+
+//	method randomWallPosition(){
+//		return self.posiciones().flatten().get(randomizer.index())	
+//	}
 	
-	method paredes(habitaciones){
-		return self.limitesDelNivel() + habitaciones
-	}
-	method generarHabitacion(xInicial, xFinal, yInicial, yFinal){
-		return 
-			[
-				escena.filaPosiciones(xInicial, xFinal, yInicial),
-				escena.filaPosiciones(xInicial, xFinal, yFinal),
-				escena.columnaPosiciones(yInicial, yFinal, xInicial),
-				escena.columnaPosiciones(yInicial, yFinal, xFinal)
-			]
+	method wallInPosition(pos){
+		return game.getObjectsIn(pos)
 	}
 	
-	method limitesDelNivel(){
-		return 
-		[
-			escena.filaPosiciones(0, escena.ancho() , 0),
-			escena.filaPosiciones(0, escena.ancho() , escena.alto()-1),
-			escena.columnaPosiciones(0, escena.alto() , 0),
-			escena.columnaPosiciones(0, escena.alto() , escena.ancho()-1)
-		]
+
+	method puertaFinal(pos){		
+		return new Puerta(position = pos)
 	}
-	
-	method nuevaFila(positions){
-		paredFactory.nuevasParedes(positions, pared)
-	}
-	method nuevaColumna(positions){
-		paredFactory.nuevasParedes(positions, pared)
-	}
-	method dibujarParedes(habitaciones){			
-		self.paredes(habitaciones).forEach {pos =>
-			if(escena.esFila(pos)){
-				self.nuevaFila(self.paredes(habitaciones))
-			}else{
-				self.nuevaColumna(self.paredes(habitaciones))
-			}
+		
+	method dibujarNivel(){
+		elementos.flatten().forEach{
+			elem => render.renderizar(elem)
 		}
 	}
+	
+//	method agregarPuerta(posicion){
+//		return if(self.wallInPosition(posicion).any({obj=>obj.esLimite()})){
+//			new Puerta(position = posicion)
+//			}else {self.agregarPuerta(self.randomWallPosition())}
+//	}
+
+//	method finalDoorPosition(pos){
+//		if(self.wallInPosition(pos).all({
+//			obj => obj.esLimite()
+//			})){
+//			return pos
+//		} else {
+//			return pos
+//		}
+//	}
 }
 

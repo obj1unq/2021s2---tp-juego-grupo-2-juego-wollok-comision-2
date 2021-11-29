@@ -1,6 +1,9 @@
-//import extras.*
+import wollok.game.*
+import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
+	const balas = 0
+	
 	method image() {
 		
 	}
@@ -17,58 +20,12 @@ object cuchillo{
 	}
 }
 
-object pistola{
-	var usos = 0
-	//var balas = 3
-	
-	method image() {
-		
-	}
-		
-	method factorAtaque(){		
-		return 5.min(8 - usos)	//(8 - usos) || 5
-	}
-	
-	method usar(){
-		usos += 1
-		//balas -= 1
-	}
-
-	method abrePuerta(){
-		return false
-	}
-}
-
-object escopeta{
-	var usos = 0
-	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 10.min(20-usos*3)//(20 - usos x 3) || 10 
-	}
-	
-	method usar(){
-		usos += 1		
-	}
-	
-	method abrePuerta(){
-		return false
-	}
-}
-//class artefacto {
-//	
-//}
-
-
 class ArmaDeFuego {
 	var property balas
 	var property poder
 	
 	method usar (){
-		balas -=1
+		balas -= 1
 	}
 	method factorAtaque(){
 		return poder.min(10+balas)
@@ -79,14 +36,93 @@ class ArmaDeFuego {
 	}
 }
 
+class Bala {
+	var property poder
+	var property position
+	var property direccionBala
+	
+	method image() = "Bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
+	
+	method sufijo() = direccionBala.sufijo()
+	
+	method desplazarse(){
+		self.actualizarPosicion(direccionBala.siguiente(self.position()))
+	}
+	
+	method actualizarPosicion(nuevaPosicion) {
+		position = nuevaPosicion
+	}
+	
+	method impacto(objeto) {
+		objeto.sufrir(poder)
+	}
+	
+	method sufrir(dano) {}
+}
+
 class Tarjetas {
 	var property puertaQueAbre
 	
 	method abrePuerta(){
-//		puertaQueAbre.Abrir()
+		return true
 	}
 
 }
+
+class Puerta{
+	const property esSolido = true
+	const property position
+	const property image = "door.png"
+	
+	method posiciones(){
+		return [position]
+	}
+	
+	method seAbre(){
+		return true
+	}
+	
+	method abrir(){
+		if(personaje.tieneTarjeta()){
+			game.removeVisual(self)
+			game.say(personaje, "¡Escapé!")
+			game.schedule(2000,{
+				game.stop()
+			})			
+		} else {
+			game.say(personaje, "No puedo abrir la puerta")
+		}
+	}
+}
+
+class Pared{
+	var property position
+	var property image = 'pared.png'
+	const property esSolido = true
+	
+	method posiciones(){
+		return [position]
+	}
+	
+	method esLimite(){
+		return self.position().x()==0
+				|| self.position().y()==0
+				|| self.position().x() == game.width()-1
+				|| self.position().y() == game.height()-1
+	}
+	
+	method esSolido(){
+		return true
+	}
+	
+	method sufrir(nada){
+		//No hace nada por el polimorfismo
+	}
+	method seAbre(){
+		return false
+	}
+}
+
 
 
 

@@ -6,8 +6,8 @@ import enemigos.*
 import nivelesDelJuego.*
 
 program juego {
+	
 	game.title("Demo")
-
 	game.width(16)
     game.height(9)
     game.cellSize(64)
