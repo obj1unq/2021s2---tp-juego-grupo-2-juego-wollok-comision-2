@@ -75,10 +75,10 @@ object demo{
 object config {
 	method eliminarObjetos(posicion){game.removeVisual(game.getObjectsIn(posicion))}
 	method configuracionTeclas() {
-		keyboard.left().onPressDo( { personaje.moverA(izquierda)  })
-		keyboard.right().onPressDo({ personaje.moverA(derecha) })
-		keyboard.up().onPressDo({ personaje.moverA(arriba) })
-		keyboard.down().onPressDo({ personaje.moverA(abajo) })
+		keyboard.a().onPressDo( { personaje.moverA(izquierda)  })
+		keyboard.d().onPressDo({ personaje.moverA(derecha) })
+		keyboard.w().onPressDo({ personaje.moverA(arriba) })
+		keyboard.s().onPressDo({ personaje.moverA(abajo) })
 		
 		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
 		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
