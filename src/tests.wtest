@@ -5,7 +5,6 @@ describe "Testeo de los artefactos del juego" {
 	test "Objeto Cuchillo" {
 		
 		assert.equals(3,cuchillo.factorAtaque())
-		assert.notThat(cuchillo.abrePuerta())
 	}
 	
 	test "Objeto Tarjeta"{
