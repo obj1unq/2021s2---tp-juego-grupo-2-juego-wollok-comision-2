@@ -165,9 +165,3 @@ class Municion{
 		personaje.recargar(cantidadDeBalas)
 	}
 }
-
-
-
-
-
-
