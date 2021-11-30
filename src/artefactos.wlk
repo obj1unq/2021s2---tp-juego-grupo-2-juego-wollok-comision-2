@@ -4,29 +4,19 @@ import personaje.*
 object cuchillo{	
 	const balas = 0
 	
-	method image() {
-		
-	}
-	
-	method factorAtaque(){
-		return 3
-	}
+	method factorAtaque() = 3
 	
 	method usar() {
 		// No hace nada por el polimorfismo
 	}
-	method abrePuerta(){
-		return false
-	}
 	
-	method cargar(n) {
-		
-	}
+	method cargar(n) {}
 }
 
 class ArmaDeFuego {
 	var property balas
 	var property poder
+	var property image
 	
 	method usar (){
 		balas -= 1
@@ -35,12 +25,12 @@ class ArmaDeFuego {
 		return poder.min(10+balas)
 	}
 	
-	method abrePuerta(){
-		return false
-	}
-	
 	method cargar(_balas) {
 		balas += _balas
+	}
+	
+	method actuar() {
+		personaje.recogerArma(self)
 	}
 	
 }

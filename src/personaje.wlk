@@ -6,10 +6,10 @@ import enemigos.*
 object personaje {
 	var property energia = 200 
 	var property position = game.at(1, 1)
-	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10)}
+	var property armas = #{cuchillo}
 	var direccion = abajo 
 	const property esSolido = false
-	
+	var property tieneTarjeta = false
 
 	method image() = "policia-" + self.sufijo() + ".png"
 	
@@ -30,12 +30,8 @@ object personaje {
 	
 	method fuerza(arma) = 10 + arma.factorAtaque()
 	
-	method recogerArtefacto(_artefacto){
-		artefactos.add(_artefacto)
-	}
-	
 	method armaMasPoderosa() {
-		return artefactos.max({cosa => cosa.factorAtaque()})
+		return armas.max({cosa => cosa.factorAtaque()})
 	}
 	
 	method armaEstaCargada(arma) = arma.balas() > 0
@@ -75,10 +71,12 @@ object personaje {
 	}
 	
 	method validarEnergia() {
-		if(energia <= 0) {
+		if(self.noEstoyVivo()) {
 			self.perder()
 		}
 	}
+	
+	method noEstoyVivo() = energia <= 0
 	
 	method perder(){
 		game.say(self,"YOU LOST")
@@ -86,9 +84,6 @@ object personaje {
 		//Clear y cambiar fondo
 	}
 	
-	method tieneTarjeta(){
-		return artefactos.any({artefacto => artefacto.abrePuerta()})
-	}
 	method curarse(gasa) {
 		energia += gasa
 	}
@@ -96,13 +91,28 @@ object personaje {
 	method recargar(balas) {
 		self.armaMasPoderosa().cargar(balas)
 	}
-//	method tirarArma() {
-//		game.addVisual(self.arma())
-//		artefactos.remove(self.arma())
-//	}
-//
 	
+	method tirarArma() {
+		self.validarTirar()
+	}
 	
+	method recogerArma(_arma){
+		self.validarRecoger(_arma)
+		
+	}
+	
+	method validarRecoger(arma) {
+		if (!self.estoyArmado()) {
+			armas.add(arma)
+		}
+	}
+	
+	method validarTirar() {
+		if(self.estoyArmado()) {
+			game.addVisual(self.armaMasPoderosa())
+			armas.remove(self.armaMasPoderosa())	
+		}
+	}
+	
+	method estoyArmado() = armas.size() > 1
 }
-
-
