@@ -63,38 +63,41 @@ object enemigoFactory {
 }
 
 class JefeEnemigo inherits Enemigo{
-	var property artefacto = new Tarjetas(puertaQueAbre = "edificio")
+	var property tarjeta = new Tarjetas(puertaQueAbre = "edificio")
 	
-	override method image() {
-		return "policia-down.png"
-	}	
+	override method image() = "policia-down.png"
 	
-	method pelear() {
-		self.ganarPelea()		
-		if (self.esMasFuerteQue(personaje)) {
-			personaje.perder()			
-		}
-		else {
-			self.morir()
-		}
+	method atacar(){
+		game.onTick(1000, "balazo", {self.superDisparo()})
 	}
 	
-	method esMasFuerteQue(alguien) {
-		return self.fuerza() > alguien.fuerza()
+	method superDisparo() {
+		if(energia > 0) {
+		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = 0)
+		const tiro2 = new Bala(direccionBala = direccion, position = direccion.siguiente(self.positionUnder()), poder = 0)
+		game.addVisual(tiro)
+		game.onTick(500, "Ricochet", {tiro.desplazarse()})
+		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
+								game.removeTickEvent("Ricochet")
+								game.removeVisual(tiro)})
+		game.addVisual(tiro2)
+		game.onTick(500, "Ricochet2", {tiro2.desplazarse()})
+		game.onCollideDo(tiro2, {enemigo => tiro2.impacto(enemigo)
+								game.removeTickEvent("Ricochet2")
+								game.removeVisual(tiro2)})
+		
 	}
+}
+	
+	method positionUnder() = self.position().down(1)
 	
 	method tirarArtefacto() {
-		game.addVisual(artefacto) 
+		game.addVisual(tarjeta) 
 	}
-	
-	
 	
 	override method morir() {
-		energia = 0
 		self.tirarArtefacto()
+		super()
 		//Poner cuerpo de enemigo?
-	}
-	method ganarPelea(){
-		
 	}
 }

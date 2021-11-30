@@ -53,6 +53,7 @@ object render{
 }
 
 object demo{
+	const jefecito = new JefeEnemigo(arma = cuchillo, direccion = izquierda, energia = 30, position = game.at(5,5))
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
@@ -69,6 +70,8 @@ object demo{
 		config.reproducirSonido()
 		escenaNivel.dibujarNivel()		
 		game.showAttributes(personaje)
+		game.addVisual(jefecito)
+		jefecito.atacar()
 	}
 }
 

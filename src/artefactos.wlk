@@ -2,7 +2,7 @@ import wollok.game.*
 import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
-	const balas = 0
+	const property balas = 0
 	
 	method factorAtaque() = 3
 	
@@ -63,6 +63,8 @@ class Bala {
 	method sufrir(danio) {
 		game.removeVisual(self)
 	}
+	
+	method esSolido() = false
 }
 
 class Tarjetas {
