@@ -21,9 +21,23 @@ class Habitacion{
 			]
 	}
 	
+	method posicionesPlanas(){
+		return self.posiciones().flatten()
+	}
+	
 	method toRender(){
 		return
-			self.posiciones().flatten().map({pos => new Pared(position = pos)})
+			self.posicionesPlanas().map({pos => new Pared(position = pos)})
+	}
+}
+
+class HabitacionConAbertura inherits Habitacion{
+	var property aberturas = []	
+	override method toRender(){
+		return self.newPos().map({pos => new Pared(position = pos)})
+	}	
+	method newPos(){
+		return self.posicionesPlanas().filter({ posicion => !aberturas.contains(posicion)})
 	}
 }
 //render
@@ -42,8 +56,8 @@ object demo{
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
-			new Habitacion(xInicial=8, xFinal=16, yInicial= 0, yFinal=4).toRender(),
-			[new Puerta(position = game.at(1,0))]
+			new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)]).toRender(),
+			[new Puerta(position = game.at(15,2))]
 		])
 
 	method iniciar() {
@@ -59,6 +73,7 @@ object demo{
 }
 
 object config {
+	method eliminarObjetos(posicion){game.removeVisual(game.getObjectsIn(posicion))}
 	method configuracionTeclas() {
 		keyboard.left().onPressDo( { personaje.moverA(izquierda)  })
 		keyboard.right().onPressDo({ personaje.moverA(derecha) })
@@ -137,6 +152,7 @@ object instanceFactory{
 
 class Nivel{	
 	var property elementos = []
+	//var property cantidadEnemigos
 	//devuelve una posicion random de las posiciones dadas 
 	//Precond: Que sean las paredes limites y no esté bloqueada por ninguna pared hacia el interior
 
@@ -147,9 +163,8 @@ class Nivel{
 	method wallInPosition(pos){
 		return game.getObjectsIn(pos)
 	}
-	
 
-	method puertaFinal(pos){		
+	method puertaFinal(pos){
 		return new Puerta(position = pos)
 	}
 		
@@ -175,4 +190,3 @@ class Nivel{
 //		}
 //	}
 }
-
