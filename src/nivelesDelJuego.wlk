@@ -74,13 +74,6 @@ object demo{
 	}
 }
 
-object enemigoFactory {
-	
-	method nuevoEnemigo() {
-		game.addVisual(new Enemigo(arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
-	}
-}
-
 object config {
 	method eliminarObjetos(posicion){game.removeVisual(game.getObjectsIn(posicion))}
 	method configuracionTeclas() {
