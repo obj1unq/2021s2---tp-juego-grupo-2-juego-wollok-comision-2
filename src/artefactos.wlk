@@ -57,7 +57,13 @@ class Bala {
 		objeto.sufrir(poder)
 	}
 	
-	method sufrir(dano) {}
+	method actuar() {
+		self.impacto(game.uniqueCollider(self))
+	}
+	
+	method sufrir(danio) {
+		game.removeVisual(self)
+	}
 }
 
 class Tarjetas {
@@ -124,11 +130,19 @@ class Pared{
 }
 class Botiquin {
 	
+	method actuar() {
+		self.curar()
+	}
 	
+	method curar() {
+		
+	}
 }
 class Municion{ 
 	
-	
+	method actuar() {
+		self.recargarLasBalas()
+	}
 	
 	method recargarLasBalas(){
 		

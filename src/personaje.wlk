@@ -71,17 +71,19 @@ object personaje {
 	
 	method sufrir(danoRecibido){
 		energia -= danoRecibido
-		if (self.validarEnergia()) {
+		self.validarEnergia()
+	}
+	
+	method validarEnergia() {
+		if(energia <= 0) {
 			self.perder()
 		}
 	}
 	
-	method validarEnergia() = energia <= 0
-	
 	method perder(){
 		game.say(self,"YOU LOST")
 		game.schedule(1000, {game.stop()})
-		//Opcionalmente ponemos una foto del cadaver
+		//Clear y cambiar fondo
 	}
 	
 	method tieneTarjeta(){
@@ -91,6 +93,7 @@ object personaje {
 //		game.addVisual(self.arma())
 //		artefactos.remove(self.arma())
 //	}
+//
 	
 	
 }

@@ -66,12 +66,12 @@ object config {
 		keyboard.down().onPressDo({ personaje.moverA(abajo) })
 		
 		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
-		keyboard.space().onPressDo({ personaje.disparar() })
+		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	
 	method configuracionColisiones() {
-		//game.onCollideDo(personaje,{personaje.pelear(game.uniqueCollider(personaje))})
+		game.onCollideDo(personaje,{game.uniqueCollider(personaje).actuar()})
 		//schedule con menos daño otra opcion
 	}
 	
@@ -143,7 +143,7 @@ class Nivel{
 //	method randomWallPosition(){
 //		return self.posiciones().flatten().get(randomizer.index())	
 //	}
-	
+
 	method wallInPosition(pos){
 		return game.getObjectsIn(pos)
 	}

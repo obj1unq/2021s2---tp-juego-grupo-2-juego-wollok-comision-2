@@ -13,9 +13,7 @@ class Enemigo{
 		
 	method esSolido() = false
 	
-	method image() = "policia-" + self.sufijo() + ".png"
-	
-	method sufijo() = direccion.sufijo()
+	method image() = "policia.png"
 	
 	method fuerza() = arma.factorAtaque()
 	
