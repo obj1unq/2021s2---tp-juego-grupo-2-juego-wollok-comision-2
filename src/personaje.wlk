@@ -89,6 +89,13 @@ object personaje {
 	method tieneTarjeta(){
 		return artefactos.any({artefacto => artefacto.abrePuerta()})
 	}
+	method curarse(gasa) {
+		energia += gasa
+	}
+	
+	method recargar(balas) {
+		self.armaMasPoderosa().cargar(balas)
+	}
 //	method tirarArma() {
 //		game.addVisual(self.arma())
 //		artefactos.remove(self.arma())

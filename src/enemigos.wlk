@@ -45,6 +45,14 @@ class Enemigo{
 			self.morir()
 		} 
 	}
+	
+	method actuar() {
+		self.cortar(personaje)
+	}
+	
+	method cortar(_enemigo){
+		_enemigo.sufrir(self.fuerza())
+	}
 }
 
 object enemigoFactory {

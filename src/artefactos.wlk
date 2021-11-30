@@ -18,6 +18,10 @@ object cuchillo{
 	method abrePuerta(){
 		return false
 	}
+	
+	method cargar(n) {
+		
+	}
 }
 
 class ArmaDeFuego {
@@ -34,6 +38,11 @@ class ArmaDeFuego {
 	method abrePuerta(){
 		return false
 	}
+	
+	method cargar(_balas) {
+		balas += _balas
+	}
+	
 }
 
 class Bala {
@@ -72,6 +81,8 @@ class Tarjetas {
 	method abrePuerta(){
 		return true
 	}
+	
+	method sufrir(danio){/*No hace nada por el polimorfismo*/}
 
 }
 
@@ -99,6 +110,8 @@ class Puerta{
 			game.say(personaje, "No puedo abrir la puerta")
 		}
 	}
+	
+	method sufrir(danio){/*No hace nada por el polimorfismo*/}
 }
 
 class Pared{
@@ -129,23 +142,27 @@ class Pared{
 	}
 }
 class Botiquin {
+	var property cantidadDeGasa
+	var property image
 	
 	method actuar() {
 		self.curar()
 	}
 	
 	method curar() {
-		
+		personaje.curarse(cantidadDeGasa)
 	}
 }
 class Municion{ 
+	var property cantidadDeBalas
+	var property image
 	
 	method actuar() {
 		self.recargarLasBalas()
 	}
 	
 	method recargarLasBalas(){
-		
+		personaje.recargar(cantidadDeBalas)
 	}
 }
 
