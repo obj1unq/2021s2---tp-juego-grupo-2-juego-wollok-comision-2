@@ -31,13 +31,11 @@ class Habitacion{
 	}
 }
 
-class HabitacionConPasaje inherits Habitacion{
-	var property aberturas = []
-	
+class HabitacionConAbertura inherits Habitacion{
+	var property aberturas = []	
 	override method toRender(){
 		return self.newPos().map({pos => new Pared(position = pos)})
-	}
-	
+	}	
 	method newPos(){
 		return self.posicionesPlanas().filter({ posicion => !aberturas.contains(posicion)})
 	}
@@ -58,7 +56,7 @@ object demo{
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
-			new HabitacionConPasaje(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)]).toRender(),
+			new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)]).toRender(),
 			[new Puerta(position = game.at(15,2))]
 		])
 
