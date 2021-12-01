@@ -12,6 +12,6 @@ program juego {
     game.height(9)
     game.cellSize(64)
     game.boardGround("piso.jpg")
-	demo.iniciar()
+	juego.iniciar()
 	game.start()	
 }

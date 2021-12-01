@@ -2,12 +2,11 @@ import wollok.game.*
 import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
-	const balas = 0
+	const property balas = 0
 	
 	method image() {
 		
 	}
-	
 	method factorAtaque(){
 		return 3
 	}
@@ -22,6 +21,8 @@ object cuchillo{
 	method cargar(n) {
 		
 	}
+	
+	method seAbre() = false
 }
 
 class ArmaDeFuego {
@@ -43,6 +44,7 @@ class ArmaDeFuego {
 		balas += _balas
 	}
 	
+	method seAbre() = false	
 }
 
 class Bala {
@@ -73,14 +75,16 @@ class Bala {
 	method sufrir(danio) {
 		game.removeVisual(self)
 	}
+	method seAbre() = false
 }
 
-class Tarjetas {
-	var property puertaQueAbre
+class Tarjetas {	
 	
 	method abrePuerta(){
 		return true
 	}
+	
+	method seAbre() = false
 	
 	method sufrir(danio){/*No hace nada por el polimorfismo*/}
 
@@ -99,17 +103,17 @@ class Puerta{
 		return true
 	}
 	
-	method abrir(){
-		if(personaje.tieneTarjeta()){
-			game.removeVisual(self)
-			game.say(personaje, "¡Escapé!")
-			game.schedule(2000,{
-				game.stop()
-			})			
-		} else {
-			game.say(personaje, "No puedo abrir la puerta")
-		}
-	}
+//	method abrir(){
+//		if(personaje.tieneTarjeta()){
+//			game.removeVisual(self)
+//			game.say(personaje, "¡Escapé!")
+//			game.schedule(2000,{
+//				game.stop()
+//			})			
+//		} else {
+//			game.say(personaje, "No puedo abrir la puerta")
+//		}
+//	}
 	
 	method sufrir(danio){/*No hace nada por el polimorfismo*/}
 }
@@ -152,6 +156,7 @@ class Botiquin {
 	method curar() {
 		personaje.curarse(cantidadDeGasa)
 	}
+	method seAbre() = false
 }
 class Municion{ 
 	var property cantidadDeBalas
@@ -164,4 +169,5 @@ class Municion{
 	method recargarLasBalas(){
 		personaje.recargar(cantidadDeBalas)
 	}
+	method seAbre() = false
 }

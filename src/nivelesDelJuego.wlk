@@ -41,18 +41,10 @@ class HabitacionConAbertura inherits Habitacion{
 	}
 }
 //render
-object render{
-		
-	method limites(){
-		return new Habitacion(xInicial = 0, xFinal = game.width()-1,yInicial = 0,yFinal = game.height()-1).toRender()
-	}
-	
-	method renderizar(instance){
-		instanceFactory.nuevaInstancia(instance)		
-	}
-}
 
-object demo{
+
+object juego{
+	//const habitacionConBotiquin = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
@@ -67,13 +59,21 @@ object demo{
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
 		config.reproducirSonido()
-		escenaNivel.dibujarNivel()		
+		escenaNivel.dibujarNivel()
 		game.showAttributes(personaje)
 	}
 }
 
 object config {
-	method eliminarObjetos(posicion){game.removeVisual(game.getObjectsIn(posicion))}
+	method iniciarJuego(){
+		game.addVisualIn(inicio, game.center())
+	}
+	
+	method eliminarObjetos(posicion){
+		game.getObjectsIn(posicion).forEach{
+			obj => game.removeVisual(obj)
+		}
+	}
 	method configuracionTeclas() {
 		keyboard.left().onPressDo( { personaje.moverA(izquierda)  })
 		keyboard.right().onPressDo({ personaje.moverA(derecha) })
@@ -82,7 +82,16 @@ object config {
 		
 		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
 		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
+		keyboard.a().onPressDo({personaje.abrirPuerta()})
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
+	}
+	
+	method ganarJuego(position){
+		self.eliminarObjetos(position)
+		musica.setVolume(0)
+		game.clear()
+		game.addVisualIn(victoria, game.center())
+		game.schedule(3000, {game.stop()})
 	}
 	
 	method configuracionColisiones() {
@@ -106,7 +115,17 @@ object config {
 		}
 	}
 }
-//diseño del nivel
+
+object inicio{
+	const property position = game.center()
+	const property image = 'inicio.png'
+}
+
+object victoria{
+	const property position = game.center()
+	const property image = 'win.png'
+}
+
 object disenio {
 	const property paredesX = (0..game.width()-1)
 	const property paredesY = (0..game.height()-1)
@@ -126,6 +145,17 @@ object disenio {
 	}
 	
 	
+}
+
+object render{
+		
+	method limites(){
+		return new Habitacion(xInicial = 0, xFinal = game.width()-1,yInicial = 0,yFinal = game.height()-1).toRender()
+	}
+	
+	method renderizar(instance){
+		instanceFactory.nuevaInstancia(instance)		
+	}
 }
 
 object musica{
@@ -150,15 +180,8 @@ object instanceFactory{
 	}
 }
 
-class Nivel{	
+class Nivel{
 	var property elementos = []
-	//var property cantidadEnemigos
-	//devuelve una posicion random de las posiciones dadas 
-	//Precond: Que sean las paredes limites y no esté bloqueada por ninguna pared hacia el interior
-
-//	method randomWallPosition(){
-//		return self.posiciones().flatten().get(randomizer.index())	
-//	}
 
 	method wallInPosition(pos){
 		return game.getObjectsIn(pos)
@@ -173,20 +196,4 @@ class Nivel{
 			elem => render.renderizar(elem)
 		}
 	}
-	
-//	method agregarPuerta(posicion){
-//		return if(self.wallInPosition(posicion).any({obj=>obj.esLimite()})){
-//			new Puerta(position = posicion)
-//			}else {self.agregarPuerta(self.randomWallPosition())}
-//	}
-
-//	method finalDoorPosition(pos){
-//		if(self.wallInPosition(pos).all({
-//			obj => obj.esLimite()
-//			})){
-//			return pos
-//		} else {
-//			return pos
-//		}
-//	}
 }

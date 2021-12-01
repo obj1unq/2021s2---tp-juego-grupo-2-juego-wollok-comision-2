@@ -2,11 +2,12 @@ import wollok.game.*
 import direcciones.*
 import artefactos.*
 import enemigos.*
+import nivelesDelJuego.*
 
 object personaje {
 	var property energia = 200 
 	var property position = game.at(1, 1)
-	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10)}
+	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10), new Tarjetas()}
 	var direccion = abajo 
 	const property esSolido = false
 	
@@ -81,7 +82,7 @@ object personaje {
 	}
 	
 	method perder(){
-		game.say(self,"YOU LOST")
+		game.say(self,"¡ME ATRAPARON!")
 		game.schedule(1000, {game.stop()})
 		//Clear y cambiar fondo
 	}
@@ -101,7 +102,17 @@ object personaje {
 //		artefactos.remove(self.arma())
 //	}
 //
+	method abrirPuerta(){
+		if(self.hayPuerta() && self.tieneTarjeta()){
+			config.ganarJuego(direccion.siguiente(self.position()))			
+		} else if(self.hayPuerta()){
+			game.say(self, "No puedo escapar! :(")
+		}
+	}
 	
+	method hayPuerta(){
+		return game.getObjectsIn(direccion.siguiente(position)).any({obj=>obj.seAbre()})
+	}
 	
 }
 
