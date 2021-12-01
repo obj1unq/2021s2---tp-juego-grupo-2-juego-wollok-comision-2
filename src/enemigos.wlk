@@ -55,6 +55,11 @@ object enemigoFactory {
 	method nuevoEnemigo() {
 		game.addVisual(new Enemigo(direccion = abajo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
 	}
+	
+	method nuevoEnemigoEn(posicion){
+		game.addVisual(new Enemigo(direccion = abajo, energia = randomizer.energy(), position = posicion))
+	}
+	
 }
 
 class JefeEnemigo inherits Enemigo{
