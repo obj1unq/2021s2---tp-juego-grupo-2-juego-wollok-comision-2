@@ -1,4 +1,4 @@
-# Nombre del juego (<- borrar y completar)
+# "Cyb3r_Esc4p3"
 
 ## Equipo de desarrollo
 
@@ -6,13 +6,15 @@
 - Fuentes, Tomás
 - Santa Cruz, Gonzalo
 
-## Capturas
-
-(agregar)
-
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+El personaje tuvo la misión de hackear y destruir los servidores de ML@Corp.
+Pudo cumplir la misión, pero se dispararon las alarmas y ahora escapar será dificil.
+Debes escapar de las instalaciones de la corporación ML como sea posible y no comprometer los objetivos de la misión
+dejando que te capturen.
+
+Teclas de movimiento: WASD para mover arriba, izquierda, abajo y derecha (respectivamente).
+Teclas de acción: E para usar ataque cuerpo a cuerpo / Espacio para disparar el arma de fuego equipada.
 
 
 ## Otros
