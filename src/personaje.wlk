@@ -105,7 +105,7 @@ object personaje {
 	
 	method hayPuerta(){
 		return game.getObjectsIn(direccion.siguiente(position)).any({obj=>obj.seAbre()})
-
+	}
 	
 	method tirarArma() {
 		self.validarTirar()
