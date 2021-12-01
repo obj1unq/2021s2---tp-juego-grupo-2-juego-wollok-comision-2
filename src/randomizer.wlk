@@ -29,11 +29,6 @@ object randomizer {
 	
 	method energy() {
 		return (15..20).anyOne()
-	}
-	
-	method niveles() {
-		const nivelesVarios = []
-		return 0
-	}
+	}	
 	
 }

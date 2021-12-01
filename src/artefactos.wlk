@@ -5,7 +5,8 @@ import config.*
 class ArmaDeFuego inherits Colisiones{
 	var property balas
 	var property poder
-	var property image
+	const property image
+	const property position
 	
 	method usar (){
 		balas -= 1

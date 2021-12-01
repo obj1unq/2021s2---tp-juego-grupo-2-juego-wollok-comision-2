@@ -119,7 +119,7 @@ object personaje {
 		}
 	}
 	
-	method estoyArmado() = armas.size() > 1
+	method estoyArmado() = armas.size() > 0
 	
 	method colision(objeto){objeto.actuar()}
 	

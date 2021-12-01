@@ -28,7 +28,7 @@ object config {
 	}
 	
 	method configuracionEnemigos() {
-		game.onTick(4000, "ENEMIGOS", {enemigoFactory.nuevoEnemigo()})
+		juego.enemigos()
 	}
 	
 	method reproducirSonido(){

@@ -6,15 +6,20 @@ import enemigos.*
 import randomizer.*
 import config.*
 
-object juego{
+object juego{	
+	//const enemigoRandom = new Enemigo(direccion = abajo, energia = randomizer.energy(), position = randomizer.emptyPosition())
 	const botiquines = [new Botiquin(cantidadDeGasa = 10,position = game.at(20,13)), new Botiquin(cantidadDeGasa = 20, position = game.at(9,1))]
 	const habitacionInicial = new HabitacionConAbertura(xInicial=0,xFinal= 8, yInicial = 0, yFinal=7, aberturas = [game.at(3,7),game.at(8,2)])
 	const habitacionInferiorCentral = new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)])
 	const habitacionSuperiorIzquierda = new HabitacionConAbertura(xInicial=0, xFinal=6, yInicial= 7, yFinal=14, aberturas = [game.at(3,7), game.at(6,11)])
 	const habitacionCentral = new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 4, yFinal=14, aberturas = [game.at(10,4), game.at(8,10), game.at(16,8)])
 	const habitacionFinal = new HabitacionConAbertura(xInicial=16, xFinal=26, yInicial= 0, yFinal=4, aberturas = [game.at(17,4)])
-	const municiones = [new Municion(cantidadDeBalas = 2,position = game.at(18,9))]
-	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(5,5))
+	const municiones = [new Municion(cantidadDeBalas = 2,position = game.at(18,10))]
+	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(22,7))
+	const pistola = new ArmaDeFuego(balas = 4, position = game.at(2,12), poder = 20, image = 'gun.png')
+	const escopeta = new ArmaDeFuego(balas = 2,position = game.at(7,13), poder = 30, image = 'shotgun.png')
+	
+	
 	
 	var property escenaNivel = new Nivel(
 		elementos = [
@@ -25,12 +30,19 @@ object juego{
 			habitacionSuperiorIzquierda.toRender(),
 			habitacionFinal.toRender(),
 			[new Puerta(position = game.at(26,2))],
-			botiquines, municiones
+			botiquines, municiones,
+			[pistola,escopeta]
 		])
-	method iniciar(){
-		game.addVisual(inicio)
-		config.configuracionTeclasInicio()	
+	
+	method enemigos(){
+			enemigoFactory.nuevoEnemigoEn(game.at(7,12))
+			enemigoFactory.nuevoEnemigoEn(game.at(7,11))
+			5.times({i => enemigoFactory.nuevoEnemigo()})
 	}
+	method iniciar(){
+			game.addVisual(inicio)
+			config.configuracionTeclasInicio()	
+		}
 	method iniciarNivel() {
 		game.clear()
 		
