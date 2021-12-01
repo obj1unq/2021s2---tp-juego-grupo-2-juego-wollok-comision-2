@@ -1,15 +1,86 @@
+import wollok.game.*
+import personaje.*
+import direcciones.*
 import artefactos.*
+import enemigos.*
+import randomizer.*
+import config.*
 
-describe "Testeo de los artefactos del juego" {
-
-	test "Objeto Cuchillo" {
-		assert.that(true)
-	//assert.equals(3,cuchillo.factorAtaque())
+describe "Test personaje" {
+	const dummy = new Enemigo(direccion = abajo, energia = 20, position = randomizer.emptyPosition())
+	const gravityGun = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 5 )
+	const gravityGun2 = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 5 )
+	const gravityGun3 = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 6 )
+	const tiro = new Bala(poder = 20, position = game.at(2,1), direccionBala = abajo)
+	
+	test "Dañar con C.A.C"{
+		assert.equals(20, dummy.energia())
+		personaje.cortar(dummy)
+		assert.equals(5, dummy.energia())
 	}
 	
-	test "Objeto Tarjeta"{
-		assert.that(true)
-		//assert.equals(0,tarjetaEdificio.factorAtaque())
-		//assert.that(tarjetaEdificio.abrePuerta())
+	test "Dañar con Tiro"{
+		personaje.recogerArma(gravityGun)
+		assert.equals(20, dummy.energia())
+		
+		personaje.disparar()
+		tiro.impacto(dummy)
+		
+		assert.equals(1, gravityGun.balas())
+		assert.equals(0, dummy.energia())
+	}
+	
+	test "Sufrir"{
+		assert.equals(200, personaje.energia())
+		dummy.cortar(personaje)
+		assert.equals(195, personaje.energia())
+	}
+	
+	test "Curarse" {
+		assert.equals(200, personaje.energia())
+		dummy.cortar(personaje)
+		assert.equals(195, personaje.energia())
+		personaje.curarse(20)
+		assert.equals(200, personaje.energia())
+	}
+	
+	test "Recargar"{
+		personaje.recogerArma(gravityGun)
+		personaje.disparar()
+		assert.equals(1, gravityGun.balas())
+		personaje.recargar(3)
+		assert.equals(4, gravityGun.balas())
+	}
+	
+	test "Tirar Arma funciona"{
+		personaje.recogerArma(gravityGun)
+		personaje.recogerArma(gravityGun3)
+		assert.that(personaje.armas().contains(gravityGun))
+		assert.that(personaje.armas().contains(gravityGun3))
+		assert.equals(gravityGun3, personaje.armaMasPoderosa())
+		personaje.tirarArma()
+		assert.that(personaje.armas().contains(gravityGun))
+	}
+	
+	test "Tirar Arma no funciona"{
+		assert.notThat(personaje.armas().contains(gravityGun))
+		personaje.tirarArma()
+		assert.notThat(personaje.armas().contains(gravityGun))
+	}
+	
+	test "Agarrar arma funciona"{
+		assert.notThat(personaje.armas().contains(gravityGun))
+		personaje.recogerArma(gravityGun)
+		assert.that(personaje.armas().contains(gravityGun))
+	}
+	
+	test "Agarrar arma no funciona"{
+		personaje.recogerArma(gravityGun)
+		assert.that(personaje.armas().contains(gravityGun))
+		personaje.recogerArma(gravityGun2)
+		assert.that(personaje.armas().contains(gravityGun))
+		assert.that(personaje.armas().contains(gravityGun2))
+		personaje.recogerArma(gravityGun3)
+		assert.notThat(personaje.armas().contains(gravityGun3))
 	}
 }

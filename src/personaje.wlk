@@ -36,7 +36,7 @@ object personaje {
 	method poderBase() = 15
 	
 	method armaMasPoderosa() {
-		return armas.max({cosa => cosa.factorAtaque()})
+		return armas.maxIfEmpty({cosa => cosa.factorAtaque()}, {})
 	}
 	
 	method armaEstaCargada(arma) = arma.balas() > 0
