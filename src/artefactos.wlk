@@ -151,7 +151,8 @@ class Botiquin {
 }
 class Municion{ 
 	var property cantidadDeBalas
-	var property image
+	const property position
+	var property image = 'ammo.png'
 	
 	method actuar() {
 		self.recargarLasBalas()

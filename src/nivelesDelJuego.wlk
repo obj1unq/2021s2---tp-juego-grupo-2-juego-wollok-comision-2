@@ -6,6 +6,48 @@ import enemigos.*
 import randomizer.*
 import config.*
 
+object juego{
+	const botiquines = [new Botiquin(cantidadDeGasa = 10,position = game.at(20,13)), new Botiquin(cantidadDeGasa = 20, position = game.at(9,1))]
+	const habitacionInicial = new HabitacionConAbertura(xInicial=0,xFinal= 8, yInicial = 0, yFinal=7, aberturas = [game.at(3,7),game.at(8,2)])
+	const habitacionInferiorCentral = new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)])
+	const habitacionSuperiorIzquierda = new HabitacionConAbertura(xInicial=0, xFinal=6, yInicial= 7, yFinal=14, aberturas = [game.at(3,7), game.at(6,11)])
+	const habitacionCentral = new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 4, yFinal=14, aberturas = [game.at(10,4), game.at(8,10), game.at(16,8)])
+	const habitacionFinal = new HabitacionConAbertura(xInicial=16, xFinal=26, yInicial= 0, yFinal=4, aberturas = [game.at(17,4)])
+	const municiones = [new Municion(cantidadDeBalas = 2,position = game.at(18,9))]
+	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(5,5))
+
+	var property escenaNivel = new Nivel(
+		elementos = [
+			render.limites(),
+			habitacionInicial.toRender(),
+			habitacionInferiorCentral.toRender(),
+			habitacionCentral.toRender(),
+			habitacionSuperiorIzquierda.toRender(),
+			habitacionFinal.toRender(),
+			[new Puerta(position = game.at(26,2))],
+			botiquines, municiones
+		])
+	method iniciar(){
+		game.addVisual(inicio)
+		config.configuracionTeclasInicio()	
+	}
+	method iniciarNivel() {
+		game.clear()
+		
+		personaje.position(game.at(1,1))
+		game.addVisual(personaje)
+		//objeto que configure los limites
+		config.configuracionTeclas()
+		config.configuracionEnemigos()
+		config.reproducirSonido()
+		escenaNivel.dibujarNivel()
+		game.showAttributes(personaje)
+		game.addVisual(jefecito)
+		jefecito.atacar()
+	}
+}
+
+
 class Habitacion{
 	var property xInicial
 	var property xFinal
@@ -42,37 +84,6 @@ class HabitacionConAbertura inherits Habitacion{
 	}
 }
 
-object juego{
-	const botiquines = [new Botiquin(cantidadDeGasa = 10,position = game.at(20,13)), new Botiquin(cantidadDeGasa = 20, position = game.at(9,1))]
-	const habitacion = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
-	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(5,5))
-
-	var property escenaNivel = new Nivel(
-		elementos = [
-			render.limites(),
-			new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)]).toRender(),
-			[new Puerta(position = game.at(15,2))],
-			botiquines
-		])
-	method iniciar(){
-		game.addVisual(inicio)
-		config.configuracionTeclasInicio()	
-	}
-	method iniciarNivel() {
-		game.clear()
-		
-		personaje.position(game.at(1,1))
-		game.addVisual(personaje)
-		//objeto que configure los limites
-		config.configuracionTeclas()
-		config.configuracionEnemigos()
-		config.reproducirSonido()
-		escenaNivel.dibujarNivel()
-		game.showAttributes(personaje)
-		game.addVisual(jefecito)
-		jefecito.atacar()
-	}
-}
 
 object inicio{
 	const property position = game.at(10,5)
@@ -80,7 +91,7 @@ object inicio{
 }
 
 object victoria{
-	const property position = game.center()
+	const property position = game.at(12,8)
 	const property image = 'win.png'
 }
 
