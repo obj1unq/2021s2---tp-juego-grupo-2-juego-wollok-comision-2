@@ -43,16 +43,23 @@ class HabitacionConAbertura inherits Habitacion{
 }
 
 object juego{
-	//const habitacionConBotiquin = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
+	const botiquines = [new Botiquin(cantidadDeGasa = 10,position = game.at(20,13)), new Botiquin(cantidadDeGasa = 20, position = game.at(9,1))]
+	const habitacion = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
 	const jefecito = new JefeEnemigo(arma = cuchillo, direccion = izquierda, energia = 30, position = game.at(5,5))
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
 			new HabitacionConAbertura(xInicial=8, xFinal=16, yInicial= 0, yFinal=4, aberturas = [game.at(8,2), game.at(10,4)]).toRender(),
-			[new Puerta(position = game.at(15,2))]
+			[new Puerta(position = game.at(15,2))],
+			botiquines
 		])
-
-	method iniciar() {
+	method iniciar(){
+		game.addVisual(inicio)
+		config.configuracionTeclasInicio()	
+	}
+	method iniciarNivel() {
+		game.clear()
+		
 		personaje.position(game.at(1,1))
 		game.addVisual(personaje)
 		//objeto que configure los limites

@@ -7,11 +7,11 @@ import nivelesDelJuego.*
 
 program juego {
 	
-	game.title("Demo")
-	game.width(16)
-    game.height(9)
+	game.title("Cyb3r-Esc4p3")
+	game.width(27)
+    game.height(15)
     game.cellSize(64)
     game.boardGround("piso.jpg")
 	juego.iniciar()
-	game.start()	
+	game.start()
 }

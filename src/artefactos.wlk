@@ -137,7 +137,8 @@ class Pared{
 }
 class Botiquin {
 	var property cantidadDeGasa
-	var property image
+	const property position
+	const property image = 'botiquin.png'
 	
 	method actuar() {
 		self.curar()

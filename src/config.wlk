@@ -20,6 +20,9 @@ object config {
 		keyboard.e().onPressDo({personaje.abrirPuerta()})
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
+	method configuracionTeclasInicio() {		
+		keyboard.enter().onPressDo({juego.iniciarNivel()})	
+	}
 	
 	method configuracionColisiones() {
 		game.onCollideDo(personaje,{game.uniqueCollider(personaje).actuar()})
