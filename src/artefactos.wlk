@@ -2,32 +2,21 @@ import wollok.game.*
 import personaje.*
 //Artefactos (Armamento y Llaves)
 object cuchillo{	
-	const property balas = 0
-	
-	method image() {
-		
-	}
-	method factorAtaque(){
-		return 3
-	}
+	const property balas = 0	
+
+	method factorAtaque() = 3
 	
 	method usar() {
 		// No hace nada por el polimorfismo
 	}
-	method abrePuerta(){
-		return false
-	}
-	
-	method cargar(n) {
-		
-	}
-	
-	method seAbre() = false
+
+	method cargar(n) {}
 }
 
 class ArmaDeFuego {
 	var property balas
 	var property poder
+	var property image
 	
 	method usar (){
 		balas -= 1
@@ -36,15 +25,14 @@ class ArmaDeFuego {
 		return poder.min(10+balas)
 	}
 	
-	method abrePuerta(){
-		return false
-	}
-	
 	method cargar(_balas) {
 		balas += _balas
 	}
 	
-	method seAbre() = false	
+	method actuar() {
+		personaje.recogerArma(self)
+	}	
+
 }
 
 class Bala {
@@ -75,19 +63,21 @@ class Bala {
 	method sufrir(danio) {
 		game.removeVisual(self)
 	}
-	method seAbre() = false
 }
 
-class Tarjetas {	
-	
-	method abrePuerta(){
-		return true
-	}
+
+
+class Tarjeta {
+	var property image
+	var property position
 	
 	method seAbre() = false
 	
 	method sufrir(danio){/*No hace nada por el polimorfismo*/}
-
+	
+	method actuar() {
+		personaje.tengoLaTarjeta()
+	}
 }
 
 class Puerta{

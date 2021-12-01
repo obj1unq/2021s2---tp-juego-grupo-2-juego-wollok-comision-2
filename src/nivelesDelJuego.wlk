@@ -4,6 +4,7 @@ import direcciones.*
 import artefactos.*
 import enemigos.*
 import randomizer.*
+import config.*
 
 class Habitacion{
 	var property xInicial
@@ -40,11 +41,10 @@ class HabitacionConAbertura inherits Habitacion{
 		return self.posicionesPlanas().filter({ posicion => !aberturas.contains(posicion)})
 	}
 }
-//render
-
 
 object juego{
 	//const habitacionConBotiquin = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
+	const jefecito = new JefeEnemigo(arma = cuchillo, direccion = izquierda, energia = 30, position = game.at(5,5))
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),
@@ -61,58 +61,8 @@ object juego{
 		config.reproducirSonido()
 		escenaNivel.dibujarNivel()
 		game.showAttributes(personaje)
-	}
-}
-
-object config {
-	method iniciarJuego(){
-		game.addVisualIn(inicio, game.center())
-	}
-	
-	method eliminarObjetos(posicion){
-		game.getObjectsIn(posicion).forEach{
-			obj => game.removeVisual(obj)
-		}
-	}
-	method configuracionTeclas() {
-		keyboard.left().onPressDo( { personaje.moverA(izquierda)  })
-		keyboard.right().onPressDo({ personaje.moverA(derecha) })
-		keyboard.up().onPressDo({ personaje.moverA(arriba) })
-		keyboard.down().onPressDo({ personaje.moverA(abajo) })
-		
-		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
-		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
-		keyboard.a().onPressDo({personaje.abrirPuerta()})
-	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
-	}
-	
-	method ganarJuego(position){
-		self.eliminarObjetos(position)
-		musica.setVolume(0)
-		game.clear()
-		game.addVisualIn(victoria, game.center())
-		game.schedule(3000, {game.stop()})
-	}
-	
-	method configuracionColisiones() {
-		game.onCollideDo(personaje,{game.uniqueCollider(personaje).actuar()})
-		//schedule con menos daño otra opcion
-	}
-	
-	method configuracionEnemigos() {
-		game.onTick(4000, "ENEMIGOS", {enemigoFactory.nuevoEnemigo()})
-	}
-	
-	method reproducirSonido(){
-		if(!musica.audio().played()){
-		game.schedule(1000, {
-			musica.loopOn()
-			musica.audio().volume(0.5)
-			musica.audio().play()
-		})
-		
-		
-		}
+		game.addVisual(jefecito)
+		jefecito.atacar()
 	}
 }
 

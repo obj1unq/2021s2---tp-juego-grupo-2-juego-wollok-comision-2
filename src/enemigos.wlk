@@ -3,7 +3,7 @@ import direcciones.*
 import artefactos.*
 import wollok.game.*
 import randomizer.*
-
+import config.*
 
 class Enemigo{
 	var property energia
@@ -63,38 +63,36 @@ object enemigoFactory {
 }
 
 class JefeEnemigo inherits Enemigo{
-	var property artefacto = new Tarjetas(puertaQueAbre = "edificio")
+	const property tarjeta = new Tarjeta(image = 0, position = self.position())
 	
-	override method image() {
-		return "policia-down.png"
-	}	
+	override method image() = "policia-down.png"
 	
-	method pelear() {
-		self.ganarPelea()		
-		if (self.esMasFuerteQue(personaje)) {
-			personaje.perder()			
-		}
-		else {
-			self.morir()
+	method atacar(){
+		game.onTick(1000, "balazo", {self.superDisparoSiVive()})
+	}
+	
+	method superDisparoSiVive() {
+		if(energia > 0) {
+		self.superDisparo()
 		}
 	}
 	
-	method esMasFuerteQue(alguien) {
-		return self.fuerza() > alguien.fuerza()
+	method superDisparo() {
+		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = 0)
+		const tiro2 = new Bala(direccionBala = direccion, position = direccion.siguiente(self.positionUnder()), poder = 0)
+		config.configDisparo(tiro)
+		config.configDisparo(tiro2)
 	}
+	
+	method positionUnder() = self.position().down(1)
 	
 	method tirarArtefacto() {
-		game.addVisual(artefacto) 
+		game.addVisual(tarjeta) 
 	}
 	
-	
-	
-	override method morir() {
-		energia = 0
-		self.tirarArtefacto()
+//	override method morir() {
+//		self.tirarArtefacto()
+//		super()
 		//Poner cuerpo de enemigo?
-	}
-	method ganarPelea(){
-		
-	}
+//	}
 }

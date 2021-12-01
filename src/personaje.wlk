@@ -3,14 +3,16 @@ import direcciones.*
 import artefactos.*
 import enemigos.*
 import nivelesDelJuego.*
+import config.*
+
 
 object personaje {
 	var property energia = 200 
 	var property position = game.at(1, 1)
-	var property artefactos = #{cuchillo, new ArmaDeFuego(balas = 4, poder = 10), new Tarjetas()}
+	var property armas = #{cuchillo}
 	var direccion = abajo 
 	const property esSolido = false
-	
+	var property tieneTarjeta = false
 
 	method image() = "policia-" + self.sufijo() + ".png"
 	
@@ -31,12 +33,8 @@ object personaje {
 	
 	method fuerza(arma) = 10 + arma.factorAtaque()
 	
-	method recogerArtefacto(_artefacto){
-		artefactos.add(_artefacto)
-	}
-	
 	method armaMasPoderosa() {
-		return artefactos.max({cosa => cosa.factorAtaque()})
+		return armas.max({cosa => cosa.factorAtaque()})
 	}
 	
 	method armaEstaCargada(arma) = arma.balas() > 0
@@ -50,11 +48,7 @@ object personaje {
 	method disparar() {
 		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = self.fuerza(self.armaMasPoderosa()))
 		self.armaMasPoderosa().usar()
-		game.addVisual(tiro)
-		game.onTick(300, "Ricochet", {tiro.desplazarse()})
-		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
-								game.removeTickEvent("Ricochet")
-								game.removeVisual(tiro)})
+		config.configDisparo(tiro)
 	}
 	
 	method cuerpoACuerpo(){
@@ -76,10 +70,12 @@ object personaje {
 	}
 	
 	method validarEnergia() {
-		if(energia <= 0) {
+		if(self.noEstoyVivo()) {
 			self.perder()
 		}
 	}
+	
+	method noEstoyVivo() = energia <= 0
 	
 	method perder(){
 		game.say(self,"¡ME ATRAPARON!")
@@ -87,21 +83,18 @@ object personaje {
 		//Clear y cambiar fondo
 	}
 	
-	method tieneTarjeta(){
-		return artefactos.any({artefacto => artefacto.abrePuerta()})
-	}
 	method curarse(gasa) {
 		energia += gasa
+	}
+	
+	method tengoLaTarjeta() {
+		tieneTarjeta = true
 	}
 	
 	method recargar(balas) {
 		self.armaMasPoderosa().cargar(balas)
 	}
-//	method tirarArma() {
-//		game.addVisual(self.arma())
-//		artefactos.remove(self.arma())
-//	}
-//
+
 	method abrirPuerta(){
 		if(self.hayPuerta() && self.tieneTarjeta()){
 			config.ganarJuego(direccion.siguiente(self.position()))			
@@ -112,8 +105,29 @@ object personaje {
 	
 	method hayPuerta(){
 		return game.getObjectsIn(direccion.siguiente(position)).any({obj=>obj.seAbre()})
+
+	
+	method tirarArma() {
+		self.validarTirar()
 	}
 	
+	method recogerArma(_arma){
+		self.validarRecoger(_arma)
+		
+	}
+	
+	method validarRecoger(arma) {
+		if (!self.estoyArmado()) {
+			armas.add(arma)
+		}
+	}
+	
+	method validarTirar() {
+		if(self.estoyArmado()) {
+			game.addVisual(self.armaMasPoderosa())
+			armas.remove(self.armaMasPoderosa())	
+		}
+	}
+	
+	method estoyArmado() = armas.size() > 1
 }
-
-
