@@ -11,7 +11,7 @@ class Enemigo inherits Colisiones{
 	var property direccion
 	const property fuerza = 5
 	
-	method image() = "policia.png"
+	method image() = "enemigo.png"
 	
 	method moverA(_direccion) {
 		direccion = _direccion
@@ -64,7 +64,7 @@ object enemigoFactory {
 
 class JefeEnemigo inherits Enemigo{
 	
-	override method image() = "policia-down.png"
+	override method image() = "boss.png"
 	
 	method atacar(){
 		game.onTick(1000, "balazo", {self.superDisparoSiVive()})
