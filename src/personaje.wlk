@@ -2,6 +2,7 @@ import wollok.game.*
 import direcciones.*
 import artefactos.*
 import enemigos.*
+import config.*
 
 object personaje {
 	var property energia = 200 
@@ -45,11 +46,7 @@ object personaje {
 	method disparar() {
 		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = self.fuerza(self.armaMasPoderosa()))
 		self.armaMasPoderosa().usar()
-		game.addVisual(tiro)
-		game.onTick(300, "Ricochet", {tiro.desplazarse()})
-		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
-								game.removeTickEvent("Ricochet")
-								game.removeVisual(tiro)})
+		config.configDisparo(tiro)
 	}
 	
 	method cuerpoACuerpo(){
@@ -86,6 +83,10 @@ object personaje {
 	
 	method curarse(gasa) {
 		energia += gasa
+	}
+	
+	method tengoLaTarjeta() {
+		tieneTarjeta = true
 	}
 	
 	method recargar(balas) {

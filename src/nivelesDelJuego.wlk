@@ -4,6 +4,7 @@ import direcciones.*
 import artefactos.*
 import enemigos.*
 import randomizer.*
+import config.*
 
 class Habitacion{
 	var property xInicial
@@ -75,40 +76,7 @@ object demo{
 	}
 }
 
-object config {
-	method eliminarObjetos(posicion){game.removeVisual(game.getObjectsIn(posicion))}
-	method configuracionTeclas() {
-		keyboard.a().onPressDo( { personaje.moverA(izquierda)  })
-		keyboard.d().onPressDo({ personaje.moverA(derecha) })
-		keyboard.w().onPressDo({ personaje.moverA(arriba) })
-		keyboard.s().onPressDo({ personaje.moverA(abajo) })
-		
-		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
-		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
-	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
-	}
-	
-	method configuracionColisiones() {
-		game.onCollideDo(personaje,{game.uniqueCollider(personaje).actuar()})
-		//schedule con menos daño otra opcion
-	}
-	
-	method configuracionEnemigos() {
-		game.onTick(4000, "ENEMIGOS", {enemigoFactory.nuevoEnemigo()})
-	}
-	
-	method reproducirSonido(){
-		if(!musica.audio().played()){
-		game.schedule(1000, {
-			musica.loopOn()
-			musica.audio().volume(0.5)
-			musica.audio().play()
-		})
-		
-		
-		}
-	}
-}
+
 //diseño del nivel
 object disenio {
 	const property paredesX = (0..game.width()-1)

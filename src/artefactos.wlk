@@ -67,15 +67,15 @@ class Bala {
 	method esSolido() = false
 }
 
-class Tarjetas {
-	var property puertaQueAbre
-	
-	method abrePuerta(){
-		return true
-	}
+class Tarjeta {
+	var property image
+	var property position
 	
 	method sufrir(danio){/*No hace nada por el polimorfismo*/}
-
+	
+	method actuar() {
+		personaje.tengoLaTarjeta()
+	}
 }
 
 class Puerta{

@@ -3,7 +3,7 @@ import direcciones.*
 import artefactos.*
 import wollok.game.*
 import randomizer.*
-
+import config.*
 
 class Enemigo{
 	var property energia
@@ -63,31 +63,26 @@ object enemigoFactory {
 }
 
 class JefeEnemigo inherits Enemigo{
-	var property tarjeta = new Tarjetas(puertaQueAbre = "edificio")
+	const property tarjeta = new Tarjeta(image = 0, position = self.position())
 	
 	override method image() = "policia-down.png"
 	
 	method atacar(){
-		game.onTick(1000, "balazo", {self.superDisparo()})
+		game.onTick(1000, "balazo", {self.superDisparoSiVive()})
+	}
+	
+	method superDisparoSiVive() {
+		if(energia > 0) {
+		self.superDisparo()
+		}
 	}
 	
 	method superDisparo() {
-		if(energia > 0) {
 		const tiro = new Bala(direccionBala = direccion, position = direccion.siguiente(self.position()), poder = 0)
 		const tiro2 = new Bala(direccionBala = direccion, position = direccion.siguiente(self.positionUnder()), poder = 0)
-		game.addVisual(tiro)
-		game.onTick(500, "Ricochet", {tiro.desplazarse()})
-		game.onCollideDo(tiro, {enemigo => tiro.impacto(enemigo)
-								game.removeTickEvent("Ricochet")
-								game.removeVisual(tiro)})
-		game.addVisual(tiro2)
-		game.onTick(500, "Ricochet2", {tiro2.desplazarse()})
-		game.onCollideDo(tiro2, {enemigo => tiro2.impacto(enemigo)
-								game.removeTickEvent("Ricochet2")
-								game.removeVisual(tiro2)})
-		
+		config.configDisparo(tiro)
+		config.configDisparo(tiro2)
 	}
-}
 	
 	method positionUnder() = self.position().down(1)
 	
