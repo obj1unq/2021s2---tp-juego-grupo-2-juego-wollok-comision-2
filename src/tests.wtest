@@ -8,9 +8,9 @@ import config.*
 
 describe "Test personaje" {
 	const dummy = new Enemigo(direccion = abajo, energia = 20, position = randomizer.emptyPosition())
-	const gravityGun = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 5 )
-	const gravityGun2 = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 5 )
-	const gravityGun3 = new ArmaDeFuego(balas = 2, image = "policia.png", poder = 6 )
+	const gravityGun = new ArmaDeFuego(position = game.at(2,1), balas = 2, image = "policia.png", poder = 5 )
+	const gravityGun2 = new ArmaDeFuego(position = game.at(2,1), balas = 2, image = "policia.png", poder = 5 )
+	const gravityGun3 = new ArmaDeFuego(position = game.at(2,1), balas = 2, image = "policia.png", poder = 6 )
 	const tiro = new Bala(poder = 20, position = game.at(2,1), direccionBala = abajo)
 	
 	test "Dañar con C.A.C"{
