@@ -95,9 +95,9 @@ class JefeEnemigo inherits Enemigo{
 		game.addVisual(tarjeta) 
 	}
 	
-	override method morir() {
-		self.tirarArtefacto()
-		super()
+//	override method morir() {
+//		self.tirarArtefacto()
+//		super()
 		//Poner cuerpo de enemigo?
-	}
+//	}
 }
