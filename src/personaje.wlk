@@ -9,7 +9,7 @@ import config.*
 object personaje {
 	var property energia = 200 
 	var property position = game.at(1, 1)
-	var property armas = #{cuchillo}
+	var property armas = #{}
 	var direccion = abajo 
 	const property esSolido = false
 	var property tieneTarjeta = false
@@ -31,7 +31,9 @@ object personaje {
 	
 	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
-	method fuerza(arma) = 10 + arma.factorAtaque()
+	method fuerza(arma) = self.poderBase() + arma.factorAtaque()
+	
+	method poderBase() = 15
 	
 	method armaMasPoderosa() {
 		return armas.max({cosa => cosa.factorAtaque()})
@@ -61,7 +63,7 @@ object personaje {
 	method hayEnemigo() = game.colliders(self).any({algo => algo.fuerza() > 0})
 	
 	method cortar(_enemigo) {
-		_enemigo.sufrir(self.fuerza(cuchillo))
+		_enemigo.sufrir(self.poderBase())
 	}
 	
 	method sufrir(danoRecibido){

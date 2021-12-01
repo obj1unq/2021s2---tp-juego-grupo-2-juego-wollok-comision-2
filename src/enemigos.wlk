@@ -8,14 +8,12 @@ import config.*
 class Enemigo{
 	var property energia
 	var property position
-	var property arma
 	var property direccion
-		
+	const property fuerza = 5
+	
 	method esSolido() = false
 	
 	method image() = "policia.png"
-	
-	method fuerza() = arma.factorAtaque()
 	
 	method moverA(_direccion) {
 		direccion = _direccion
@@ -37,7 +35,6 @@ class Enemigo{
 		
 	method morir() {
 		game.removeVisual(self)
-//		game.AddVisual() Posible cadaver
 	}
 	
 	method validarEnergia() {
@@ -58,12 +55,12 @@ class Enemigo{
 object enemigoFactory {
 	
 	method nuevoEnemigo() {
-		game.addVisual(new Enemigo(direccion = abajo, arma = cuchillo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
+		game.addVisual(new Enemigo(direccion = abajo, energia = randomizer.energy(), position = randomizer.emptyPosition()))
 	}
 }
 
 class JefeEnemigo inherits Enemigo{
-	const property tarjeta = new Tarjeta(image = 0, position = self.position())
+	const property tarjeta = new Tarjeta(position = self.position())
 	
 	override method image() = "policia-down.png"
 	
@@ -90,9 +87,9 @@ class JefeEnemigo inherits Enemigo{
 		game.addVisual(tarjeta) 
 	}
 	
-//	override method morir() {
-//		self.tirarArtefacto()
-//		super()
+	override method morir() {
+		self.tirarArtefacto()
+		super()
 		//Poner cuerpo de enemigo?
-//	}
+	}
 }
