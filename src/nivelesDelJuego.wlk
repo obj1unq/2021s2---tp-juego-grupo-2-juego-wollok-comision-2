@@ -44,7 +44,7 @@ class HabitacionConAbertura inherits Habitacion{
 
 object juego{
 	//const habitacionConBotiquin = new HabitacionConAbertura(xInicial=0,xFinal= 0, yInicial = 0, yFinal=0, aberturas = [])
-	const jefecito = new JefeEnemigo(arma = cuchillo, direccion = izquierda, energia = 30, position = game.at(5,5))
+	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(5,5))
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),

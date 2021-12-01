@@ -1,17 +1,5 @@
 import wollok.game.*
 import personaje.*
-//Artefactos (Armamento y Llaves)
-object cuchillo{	
-	const property balas = 0	
-
-	method factorAtaque() = 3
-	
-	method usar() {
-		// No hace nada por el polimorfismo
-	}
-
-	method cargar(n) {}
-}
 
 class ArmaDeFuego {
 	var property balas
@@ -40,7 +28,7 @@ class Bala {
 	var property position
 	var property direccionBala
 	
-	method image() = "Bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
+	method image() = "bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
 	
 	method sufijo() = direccionBala.sufijo()
 	
@@ -68,8 +56,9 @@ class Bala {
 
 
 class Tarjeta {
-	var property image
 	var property position
+	
+	method image() = "card.png"
 	
 	method seAbre() = false
 	
