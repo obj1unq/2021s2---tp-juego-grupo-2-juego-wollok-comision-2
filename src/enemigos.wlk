@@ -42,7 +42,7 @@ class Enemigo inherits Colisiones{
 	}
 	
 	override method actuar() {
-		personaje.sufrir(fuerza)
+		game.whenCollideDo(self, {heroe => self.cortar(heroe)})
 	}
 	
 	method cortar(_enemigo){

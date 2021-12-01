@@ -123,12 +123,18 @@ class Botiquin inherits Colisiones{
 	const property image = 'botiquin.png'
 	
 	override method actuar() {
-		self.curar()
-		game.removeVisual(self)
+		self.validarCurar()
+	}
+	
+	method validarCurar() {
+		if(!personaje.estoyImpecable()){
+			self.curar()
+		}
 	}
 	
 	method curar() {
 		personaje.curarse(cantidadDeGasa)
+		game.removeVisual(self)
 	}
 	method seAbre() = false
 }
@@ -138,12 +144,18 @@ class Municion inherits Colisiones{
 	var property image = 'ammo.png'
 	
 	override method actuar() {
-		self.recargarLasBalas()
-		game.removeVisual(self)
+		self.validarRecarga()
+	}
+	
+	method validarRecarga() {
+		if(personaje.estoyArmado()) {
+			self.recargarLasBalas()
+		}
 	}
 	
 	method recargarLasBalas(){
 		personaje.recargar(cantidadDeBalas)
+		game.removeVisual(self)
 	}
 	method seAbre() = false
 }

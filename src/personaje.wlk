@@ -85,7 +85,7 @@ object personaje {
 	}
 	
 	method curarse(gasa) {
-		energia += gasa
+		energia = 200.min(gasa + energia)
 	}
 	
 	method tengoLaTarjeta() {
@@ -133,4 +133,6 @@ object personaje {
 	method estoyArmado() = armas.size() > 1
 	
 	method colision(objeto){objeto.actuar()}
+	
+	method estoyImpecable() = energia >= 200
 }

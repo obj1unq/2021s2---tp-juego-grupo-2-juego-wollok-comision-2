@@ -39,6 +39,7 @@ object juego{
 		//objeto que configure los limites
 		config.configuracionTeclas()
 		config.configuracionEnemigos()
+		config.configuracionColisionesPersonajeConObjetos()
 		config.reproducirSonido()
 		escenaNivel.dibujarNivel()
 		game.showAttributes(personaje)
