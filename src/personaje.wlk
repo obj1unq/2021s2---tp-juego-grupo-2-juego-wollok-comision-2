@@ -42,7 +42,7 @@ object personaje {
 	method armaEstaCargada(arma) = arma.balas() > 0
 	
 	method dispararSiTieneBalas() {
-		if (self.armaEstaCargada(self.armaMasPoderosa())) {
+		if (self.estoyArmado() and self.armaEstaCargada(self.armaMasPoderosa())) {
 			self.disparar()
 		}
 	}
@@ -55,7 +55,6 @@ object personaje {
 	
 	method cuerpoACuerpo(){
 		if(self.hayEnemigo()) {
-		    self.sufrir(game.uniqueCollider(self).fuerza())
 			self.cortar(game.uniqueCollider(self))
 		}
 	}
@@ -132,4 +131,6 @@ object personaje {
 	}
 	
 	method estoyArmado() = armas.size() > 1
+	
+	method colision(objeto){objeto.actuar()}
 }

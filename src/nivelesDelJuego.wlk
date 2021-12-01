@@ -15,7 +15,7 @@ object juego{
 	const habitacionFinal = new HabitacionConAbertura(xInicial=16, xFinal=26, yInicial= 0, yFinal=4, aberturas = [game.at(17,4)])
 	const municiones = [new Municion(cantidadDeBalas = 2,position = game.at(18,9))]
 	const jefecito = new JefeEnemigo(direccion = izquierda, energia = 30, position = game.at(5,5))
-
+	
 	var property escenaNivel = new Nivel(
 		elementos = [
 			render.limites(),

@@ -24,9 +24,8 @@ object config {
 		keyboard.enter().onPressDo({juego.iniciarNivel()})	
 	}
 	
-	method configuracionColisiones() {
-		game.onCollideDo(personaje,{game.uniqueCollider(personaje).actuar()})
-		//schedule con menos daño otra opcion
+	method configuracionColisionesPersonajeConObjetos() {
+		game.onCollideDo(personaje,{objeto => personaje.colision(objeto)})
 	}
 	
 	method configuracionEnemigos() {
@@ -65,4 +64,14 @@ object config {
 		game.addVisualIn(victoria, game.center())
 		game.schedule(3000, {game.stop()})
 	}
+}
+
+class Colisiones {
+	
+	method actuar(){}
+	
+	method sufrir(danio){}
+	
+	method esSolido() = false
+	
 }

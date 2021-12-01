@@ -5,13 +5,11 @@ import wollok.game.*
 import randomizer.*
 import config.*
 
-class Enemigo{
+class Enemigo inherits Colisiones{
 	var property energia
 	var property position
 	var property direccion
 	const property fuerza = 5
-	
-	method esSolido() = false
 	
 	method image() = "policia.png"
 	
@@ -28,7 +26,7 @@ class Enemigo{
 	
 	method validarPosicion(posicion) = game.getObjectsIn(posicion).any({objeto => objeto.esSolido()})
 	
-	method sufrir(fuerzaPersonaje) {
+	override method sufrir(fuerzaPersonaje) {
 		energia -= fuerzaPersonaje
 		self.validarEnergia()
 	}
@@ -43,12 +41,12 @@ class Enemigo{
 		} 
 	}
 	
-	method actuar() {
-		self.cortar(personaje)
+	override method actuar() {
+		personaje.sufrir(fuerza)
 	}
 	
 	method cortar(_enemigo){
-		_enemigo.sufrir(self.fuerza())
+		_enemigo.sufrir(fuerza)
 	}
 }
 
@@ -60,7 +58,6 @@ object enemigoFactory {
 }
 
 class JefeEnemigo inherits Enemigo{
-	const property tarjeta = new Tarjeta(position = self.position())
 	
 	override method image() = "policia-down.png"
 	
@@ -84,7 +81,7 @@ class JefeEnemigo inherits Enemigo{
 	method positionUnder() = self.position().down(1)
 	
 	method tirarArtefacto() {
-		game.addVisual(tarjeta) 
+		game.addVisual(new Tarjeta(position = self.position())) 
 	}
 	
 	override method morir() {

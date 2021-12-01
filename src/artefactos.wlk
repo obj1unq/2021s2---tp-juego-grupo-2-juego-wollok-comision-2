@@ -1,19 +1,8 @@
 import wollok.game.*
 import personaje.*
+import config.*
 //Artefactos (Armamento y Llaves)
-object cuchillo{	
-	const property balas = 0	
-
-	method factorAtaque() = 3
-	
-	method usar() {
-		// No hace nada por el polimorfismo
-	}
-
-	method cargar(n) {}
-}
-
-class ArmaDeFuego {
+class ArmaDeFuego inherits Colisiones{
 	var property balas
 	var property poder
 	var property image
@@ -29,13 +18,13 @@ class ArmaDeFuego {
 		balas += _balas
 	}
 	
-	method actuar() {
+	override method actuar() {
 		personaje.recogerArma(self)
 	}	
 
 }
 
-class Bala {
+class Bala inherits Colisiones{
 	var property poder
 	var property position
 	var property direccionBala
@@ -56,38 +45,38 @@ class Bala {
 		objeto.sufrir(poder)
 	}
 	
-	method actuar() {
+	override method actuar() {
 		self.impacto(game.uniqueCollider(self))
 	}
 	
-	method sufrir(danio) {
+	override method sufrir(danio) {
 		game.removeVisual(self)
 	}
 }
 
 
 
-class Tarjeta {
+class Tarjeta inherits Colisiones{
 	var property image = 'card.png'
 	var property position
 	
 	method seAbre() = false
 	
-	method sufrir(danio){/*No hace nada por el polimorfismo*/}
-	
-	method actuar() {
+	override method actuar() {
 		personaje.tengoLaTarjeta()
+		game.removeVisual(self)
 	}
 }
 
-class Puerta{
-	const property esSolido = true
+class Puerta inherits Colisiones{
 	const property position
 	const property image = "door.png"
 	
 	method posiciones(){
 		return [position]
 	}
+	
+	override method esSolido() = true
 	
 	method seAbre(){
 		return true
@@ -104,14 +93,14 @@ class Puerta{
 //			game.say(personaje, "No puedo abrir la puerta")
 //		}
 //	}
-	
-	method sufrir(danio){/*No hace nada por el polimorfismo*/}
 }
 
-class Pared{
+class Pared inherits Colisiones{
 	var property position
 	var property image = 'pared.png'
-	const property esSolido = true
+	
+	
+	override method esSolido() = true
 	
 	method posiciones(){
 		return [position]
@@ -124,24 +113,18 @@ class Pared{
 				|| self.position().y() == game.height()-1
 	}
 	
-	method esSolido(){
-		return true
-	}
-	
-	method sufrir(nada){
-		//No hace nada por el polimorfismo
-	}
 	method seAbre(){
 		return false
 	}
 }
-class Botiquin {
+class Botiquin inherits Colisiones{
 	var property cantidadDeGasa
 	const property position
 	const property image = 'botiquin.png'
 	
-	method actuar() {
+	override method actuar() {
 		self.curar()
+		game.removeVisual(self)
 	}
 	
 	method curar() {
@@ -149,13 +132,14 @@ class Botiquin {
 	}
 	method seAbre() = false
 }
-class Municion{ 
+class Municion inherits Colisiones{ 
 	var property cantidadDeBalas
 	const property position
 	var property image = 'ammo.png'
 	
-	method actuar() {
+	override method actuar() {
 		self.recargarLasBalas()
+		game.removeVisual(self)
 	}
 	
 	method recargarLasBalas(){
