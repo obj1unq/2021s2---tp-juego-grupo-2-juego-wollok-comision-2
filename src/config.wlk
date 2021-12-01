@@ -15,9 +15,8 @@ object config {
 		keyboard.w().onPressDo({ personaje.moverA(arriba) })
 		keyboard.s().onPressDo({ personaje.moverA(abajo) })
 		
-		keyboard.k().onPressDo({ personaje.cuerpoACuerpo() })
+		keyboard.e().onPressDo({ personaje.cuerpoACuerpo() })
 		keyboard.space().onPressDo({ personaje.dispararSiTieneBalas() })
-		keyboard.e().onPressDo({personaje.abrirPuerta()})
 	//	keyboard.c().onPressDo({ personaje.recogerArtefacto(game.uniqueCollider(personaje)) })
 	}
 	method configuracionTeclasInicio() {		
@@ -57,8 +56,7 @@ object config {
 		game.addVisual(inicio)
 	}
 	
-	method ganarJuego(position){
-		self.eliminarObjetos(position)
+	method ganarJuego(){
 		musica.setVolume(0)
 		game.clear()
 		game.addVisualIn(victoria, game.center())

@@ -29,7 +29,7 @@ class Bala inherits Colisiones{
 	var property position
 	var property direccionBala
 	
-	method image() = "bala.png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
+	method image() = "bala" + self.sufijo() + ".png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
 	
 	method sufijo() = direccionBala.sufijo()
 	
@@ -60,8 +60,6 @@ class Tarjeta inherits Colisiones{
 	var property image = 'card.png'
 	var property position
 	
-	method seAbre() = false
-	
 	override method actuar() {
 		personaje.tengoLaTarjeta()
 		game.removeVisual(self)
@@ -71,34 +69,37 @@ class Tarjeta inherits Colisiones{
 class Puerta inherits Colisiones{
 	const property position
 	const property image = "door.png"
+	const property seAbre = true
 	
 	method posiciones(){
 		return [position]
 	}
 	
-	override method esSolido() = true
+	override method esSolido() = false
 	
-	method seAbre(){
-		return true
+	method abrirPuerta(){
+		config.ganarJuego()
+		
 	}
 	
-//	method abrir(){
-//		if(personaje.tieneTarjeta()){
-//			game.removeVisual(self)
-//			game.say(personaje, "¡Escapé!")
-//			game.schedule(2000,{
-//				game.stop()
-//			})			
-//		} else {
-//			game.say(personaje, "No puedo abrir la puerta")
-//		}
-//	}
+	override method actuar() {
+		self.validarAbrir()
+	}
+	
+	method validarAbrir() {
+		if (personaje.tieneTarjeta()) {
+			self.abrirPuerta()
+		}else{
+			personaje.actualizarPosicion(personaje.position().left(1))
+			game.say(personaje, "No puedo escapar! :(")
+		}
+	}
 }
 
 class Pared inherits Colisiones{
 	var property position
 	var property image = 'pared.png'
-	
+	const property seAbre = false
 	
 	override method esSolido() = true
 	
@@ -111,10 +112,6 @@ class Pared inherits Colisiones{
 				|| self.position().y()==0
 				|| self.position().x() == game.width()-1
 				|| self.position().y() == game.height()-1
-	}
-	
-	method seAbre(){
-		return false
 	}
 }
 class Botiquin inherits Colisiones{
@@ -136,7 +133,6 @@ class Botiquin inherits Colisiones{
 		personaje.curarse(cantidadDeGasa)
 		game.removeVisual(self)
 	}
-	method seAbre() = false
 }
 class Municion inherits Colisiones{ 
 	var property cantidadDeBalas
@@ -157,5 +153,4 @@ class Municion inherits Colisiones{
 		personaje.recargar(cantidadDeBalas)
 		game.removeVisual(self)
 	}
-	method seAbre() = false
 }

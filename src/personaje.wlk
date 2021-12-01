@@ -95,18 +95,6 @@ object personaje {
 	method recargar(balas) {
 		self.armaMasPoderosa().cargar(balas)
 	}
-
-	method abrirPuerta(){
-		if(self.hayPuerta() && self.tieneTarjeta()){
-			config.ganarJuego(direccion.siguiente(self.position()))			
-		} else if(self.hayPuerta()){
-			game.say(self, "No puedo escapar! :(")
-		}
-	}
-	
-	method hayPuerta(){
-		return game.getObjectsIn(direccion.siguiente(position)).any({obj=>obj.seAbre()})
-	}
 	
 	method tirarArma() {
 		self.validarTirar()
@@ -120,6 +108,7 @@ object personaje {
 	method validarRecoger(arma) {
 		if (!self.estoyArmado()) {
 			armas.add(arma)
+			game.removeVisual(arma)
 		}
 	}
 	
