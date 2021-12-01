@@ -30,7 +30,7 @@ class Bala inherits Colisiones{
 	var property position
 	var property direccionBala
 	
-	method image() = "bala" + self.sufijo() + ".png"//Cuando tengamos mas fotos: "Bala" + self.sufijo() + ".png"
+	method image() = "bala" + self.sufijo() + ".png"
 	
 	method sufijo() = direccionBala.sufijo()
 	
