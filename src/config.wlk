@@ -55,7 +55,7 @@ object config {
 	}
 	
 	method iniciarJuego(){
-		game.addVisualIn(inicio, game.center())
+		game.addVisual(inicio)
 	}
 	
 	method ganarJuego(position){

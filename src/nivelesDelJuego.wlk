@@ -75,7 +75,7 @@ object juego{
 }
 
 object inicio{
-	const property position = game.center()
+	const property position = game.at(10,5)
 	const property image = 'inicio.png'
 }
 
