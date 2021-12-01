@@ -68,7 +68,7 @@ class Bala {
 
 
 class Tarjeta {
-	var property image
+	var property image = 'card.png'
 	var property position
 	
 	method seAbre() = false
